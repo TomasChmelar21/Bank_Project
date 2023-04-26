@@ -1,0 +1,36 @@
+{
+  "users": [
+    {
+      "jmeno": "Tomas",
+      "prijmeni": "Chmelar",
+      "email": "tom.chmelar@seznam.cz",
+      "heslo": "$2a$10$t3P9PdFohS00sSb4CqnZHOk9yKw2EgZjLoeivzwvJuHpBflsdljx2",
+      "token": "123456",
+      "overen": "0",
+      "ucty": [
+        {
+          "mena": "CZK",
+          "castka": 5000
+        },
+        {
+          "mena": "EUR",
+          "castka": 1000
+        }
+      ]
+    },
+    {
+      "jmeno": "Pepa",
+      "prijmeni": "Tester",
+      "email": "misty211@seznam.cz",
+      "heslo": "$2a$10$2ngBLHuYViRX3pEx65oGM.qKWAL3HrLjp9LD7uWlQIqM1b78LBS1u",
+      "token": "654321",
+      "overen": "0",
+      "ucty": [
+        {
+          "mena": "CZK",
+          "castka": 1000
+        }
+      ]
+    }
+  ]
+}
