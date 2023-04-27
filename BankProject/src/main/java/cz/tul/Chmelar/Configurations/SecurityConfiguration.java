@@ -1,6 +1,7 @@
 package cz.tul.Chmelar.Configurations;
 
 import cz.tul.Chmelar.Services.CustomUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -11,10 +12,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-
 
     @Bean
     public UserDetailsService userDetailsService(){
@@ -24,7 +25,6 @@ public class SecurityConfiguration {
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
-
     }
 
     @Bean
@@ -46,7 +46,7 @@ public class SecurityConfiguration {
                 .and()
                 .formLogin()
                 .usernameParameter("email")
-                .defaultSuccessUrl("/list_users")
+                .defaultSuccessUrl("/account_details")
                 .permitAll()
                 .and()
                 .logout()

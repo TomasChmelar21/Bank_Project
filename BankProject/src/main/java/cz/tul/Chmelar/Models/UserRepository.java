@@ -42,8 +42,8 @@ public class UserRepository {
                         (String) userJson.get("heslo"),
                         (String) userJson.get("jmeno"),
                         (String) userJson.get("prijmeni"),
-                        (int) userJson.get("token"),
-                        (int) userJson.get("overen"),
+                        (String) userJson.get("token"),
+                        (String) userJson.get("overen"),
                         (String) userJson.get("ucet"),
                         accounts
                 );
@@ -77,7 +77,7 @@ public class UserRepository {
                         JSONObject accountJson = (JSONObject) accountsJsonArray.get(i);
                         Account account = new Account();
                         account.setCurrency((String) accountJson.get("mena"));
-                        account.setAmount((double) accountJson.get("castka"));
+                        account.setAmount(((Number) accountJson.get("castka")).doubleValue());
                         accounts[i] = account;
                     }
 
@@ -86,8 +86,8 @@ public class UserRepository {
                             (String) userJson.get("heslo"),
                             (String) userJson.get("jmeno"),
                             (String) userJson.get("prijmeni"),
-                            (int) userJson.get("token"),
-                            (int) userJson.get("overen"),
+                            (String) userJson.get("token"),
+                            (String) userJson.get("overen"),
                             (String) userJson.get("ucet"),
                             accounts
                     );

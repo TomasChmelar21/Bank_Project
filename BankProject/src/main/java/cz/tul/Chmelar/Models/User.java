@@ -12,12 +12,12 @@ public class User {
     private String firstName;
     private String lastName;
     private String ucet;
-    private int token;
-    private int overen;
+    private String token;
+    private String overen;
 
     private Account[] accounts;
 
-    public User(String email, String password, String firstName, String lastName, int token, int overen, String ucet, Account[] accounts) {
+    public User(String email, String password, String firstName, String lastName, String token, String overen, String ucet, Account[] accounts) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
