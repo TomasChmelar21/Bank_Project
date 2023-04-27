@@ -8,7 +8,7 @@ import lombok.Setter;
 public class Account {
 
     private String currency;
-    private long amount;
+    private double amount;
 
     @Override
     public String toString() {

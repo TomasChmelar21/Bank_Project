@@ -22,17 +22,17 @@ public class UserController {
         return "open_account";
     }
 
-    @PostMapping("process_payment")
+    @PostMapping("/process_payment")
     public String process_payment(){
         return "account_details";
     }
 
-    @PostMapping("process_deposit")
+    @PostMapping("/process_deposit")
     public String process_deposit(){
         return "account_details";
     }
 
-    @PostMapping("process_new_account")
+    @PostMapping("/process_new_account")
     public String process_new_account(){
         return "account_details";
     }
