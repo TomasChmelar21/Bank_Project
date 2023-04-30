@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CustomUserService implements UserDetailsService {
-    @Autowired
-    private UserRepository repo;
+    //@Autowired
+    //private UserRepository repo;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = repo.findByEmail(email);
+        User user = UserRepository.findByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException("Uživatel nenalezen");
         }

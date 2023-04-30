@@ -40,7 +40,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .requestMatchers("/account_details", "/deposit", "/open_account","/payment")
+                .requestMatchers("/account_details")
                 .authenticated()
                 .anyRequest().permitAll()
                 .and()

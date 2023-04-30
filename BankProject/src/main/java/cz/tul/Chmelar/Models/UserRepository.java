@@ -18,7 +18,7 @@ public class UserRepository {
         List<User> users = new ArrayList<>();
 
         try {
-            FileReader reader = new FileReader("src/main/resources/log.json");
+            FileReader reader = new FileReader("src/main/resources/userdb.json");
             JSONParser parser = new JSONParser();
             JSONObject logObject = (JSONObject) parser.parse(reader);
 
@@ -27,24 +27,24 @@ public class UserRepository {
             for (Object userObj : usersArray) {
                 JSONObject userJson = (JSONObject) userObj;
 
-                JSONArray accountsJsonArray = (JSONArray) userJson.get("ucty");
+                JSONArray accountsJsonArray = (JSONArray) userJson.get("accounts");
                 Account[] accounts = new Account[accountsJsonArray.size()];
                 for (int i = 0; i < accountsJsonArray.size(); i++) {
                     JSONObject accountJson = (JSONObject) accountsJsonArray.get(i);
                     Account account = new Account();
-                    account.setCurrency((String) accountJson.get("mena"));
-                    account.setAmount((double) accountJson.get("castka"));
+                    account.setCurrency((String) accountJson.get("currency"));
+                    account.setAmount((double) accountJson.get("amount"));
                     accounts[i] = account;
                 }
 
                 User user = new User(
                         (String) userJson.get("email"),
-                        (String) userJson.get("heslo"),
-                        (String) userJson.get("jmeno"),
-                        (String) userJson.get("prijmeni"),
+                        (String) userJson.get("password"),
+                        (String) userJson.get("firstName"),
+                        (String) userJson.get("lastName"),
                         (String) userJson.get("token"),
-                        (String) userJson.get("overen"),
-                        (String) userJson.get("ucet"),
+                        (String) userJson.get("proved"),
+                        (String) userJson.get("account"),
                         accounts
                 );
                 users.add(user);
@@ -71,24 +71,24 @@ public class UserRepository {
                 String userEmail = (String) userJson.get("email");
                 if (userEmail.equals(email)) {
 
-                    JSONArray accountsJsonArray = (JSONArray) userJson.get("ucty");
+                    JSONArray accountsJsonArray = (JSONArray) userJson.get("accounts");
                     Account[] accounts = new Account[accountsJsonArray.size()];
                     for (int i = 0; i < accountsJsonArray.size(); i++) {
                         JSONObject accountJson = (JSONObject) accountsJsonArray.get(i);
                         Account account = new Account();
-                        account.setCurrency((String) accountJson.get("mena"));
-                        account.setAmount(((Number) accountJson.get("castka")).doubleValue());
+                        account.setCurrency((String) accountJson.get("currency"));
+                        account.setAmount(((Number) accountJson.get("amount")).doubleValue());
                         accounts[i] = account;
                     }
 
                     User user = new User(
                             userEmail,
-                            (String) userJson.get("heslo"),
-                            (String) userJson.get("jmeno"),
-                            (String) userJson.get("prijmeni"),
+                            (String) userJson.get("password"),
+                            (String) userJson.get("firstName"),
+                            (String) userJson.get("lastName"),
                             (String) userJson.get("token"),
-                            (String) userJson.get("overen"),
-                            (String) userJson.get("ucet"),
+                            (String) userJson.get("proved"),
+                            (String) userJson.get("account"),
                             accounts
                     );
                     reader.close();

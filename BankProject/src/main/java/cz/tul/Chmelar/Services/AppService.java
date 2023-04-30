@@ -6,7 +6,9 @@ import java.nio.file.Paths;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AppService {
 
     private static String getContentOfJSON() throws IOException {

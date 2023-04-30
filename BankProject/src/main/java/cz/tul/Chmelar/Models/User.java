@@ -11,21 +11,21 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
-    private String ucet;
     private String token;
-    private String overen;
+    private String proved;
+    private String account;
 
     private Account[] accounts;
 
-    public User(String email, String password, String firstName, String lastName, String token, String overen, String ucet, Account[] accounts) {
+    public User(String email, String password, String firstName, String lastName, String token, String proved, String account, Account[] accounts) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.accounts = accounts;
         this.token = token;
-        this.overen = overen;
-        this.ucet = ucet;
+        this.proved = proved;
+        this.account = account;
     }
 
 
@@ -44,6 +44,10 @@ public class User {
             out.append(account).append(",");
         }
         return out.toString();
+    }
+
+    public Account[] getAccountsArray() {
+        return accounts;
     }
 
 
