@@ -31,6 +31,10 @@
         {
           "currency": "CZK",
           "amount": 1000
+        },
+        {
+          "currency": "EUR",
+          "amount": 1000
         }
       ]
     }

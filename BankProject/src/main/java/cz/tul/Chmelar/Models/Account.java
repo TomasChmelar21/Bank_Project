@@ -19,10 +19,8 @@ public class Account {
 
     @Override
     public String toString() {
-        return "{" +
-                "mena='" + currency + '\'' +
-                ", castka='" + amount + '\'' +
-                '}';
+        return "mena='" + currency + '\'' +
+                " castka='" + amount + '\'';
 
     }
 
