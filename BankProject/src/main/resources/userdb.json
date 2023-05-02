@@ -17,6 +17,20 @@
           "currency": "EUR",
           "amount": 1000
         }
+      ],
+      "history": [
+        {
+          "timestamp": "2023-05-02 13:26:12.123",
+          "account": "CZK",
+          "action": "Deposit",
+          "amount": 100
+        },
+        {
+          "timestamp": "2023-05-02 13:28:11.321",
+          "account": "EUR",
+          "action": "Payment",
+          "amount": 200
+        }
       ]
     },
     {
@@ -35,6 +49,20 @@
         {
           "currency": "EUR",
           "amount": 1000
+        }
+      ],
+      "history": [
+        {
+          "timestamp": "2023-05-02 13:26:12.123",
+          "account": "CZK",
+          "action": "Deposit",
+          "amount": 100
+        },
+        {
+          "timestamp": "2023-05-02 13:28:11.321",
+          "account": "EUR",
+          "action": "Payment",
+          "amount": 200
         }
       ]
     }

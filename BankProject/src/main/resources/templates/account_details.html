@@ -47,6 +47,14 @@
       <h3>Částka:</h3>
     </div>
     <div class="exchange_course">
+      <h2>Historie</h2>
+      <ul>
+        <li th:each="history : ${user.history}">
+          <span th:text="${history.timestamp}"></span>: <span th:text="${history.account}"></span>: <span th:text="${history.action}"></span>: <span th:text="${history.amount}"></span>
+        </li>
+      </ul>
+    </div>
+    <div class="exchange_course">
       <h2>Aktuální kurz:</h2>
     </div>
   </div>

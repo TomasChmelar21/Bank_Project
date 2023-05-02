@@ -16,8 +16,9 @@ public class User {
     private String account;
 
     private Account[] accounts;
+    private History[] history;
 
-    public User(String email, String password, String firstName, String lastName, String token, String proved, String account, Account[] accounts) {
+    public User(String email, String password, String firstName, String lastName, String token, String proved, String account, Account[] accounts, History[] history) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -26,6 +27,7 @@ public class User {
         this.token = token;
         this.proved = proved;
         this.account = account;
+        this.history = history;
     }
 
 
@@ -37,11 +39,14 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 '}';
     }
-    
+
 
     public Account[] getAccountsArray() {
         return accounts;
     }
 
+    public History[] getHistoryArray() {
+        return history;
+    }
 
 }

@@ -2,6 +2,7 @@ package cz.tul.Chmelar.Models;
 
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.json.simple.JSONArray;
@@ -36,6 +37,17 @@ public class UserRepository {
                     account.setAmount((double) accountJson.get("amount"));
                     accounts[i] = account;
                 }
+                JSONArray historyJsonArray = (JSONArray) userJson.get("history");
+                History[] histories = new History[historyJsonArray.size()];
+                for (int i = 0; i < historyJsonArray.size(); i++) {
+                    JSONObject historyJson = (JSONObject) historyJsonArray.get(i);
+                    History history = new History();
+                    history.setTimestamp((String) historyJson.get("timestamp"));
+                    history.setAccount((String) historyJson.get("account"));
+                    history.setAction((String) historyJson.get("action"));
+                    history.setAmount((double) historyJson.get("amount"));
+                    histories[i] = history;
+                }
 
                 User user = new User(
                         (String) userJson.get("email"),
@@ -45,7 +57,8 @@ public class UserRepository {
                         (String) userJson.get("token"),
                         (String) userJson.get("proved"),
                         (String) userJson.get("account"),
-                        accounts
+                        accounts,
+                        histories
                 );
                 users.add(user);
             }
@@ -81,6 +94,18 @@ public class UserRepository {
                         accounts[i] = account;
                     }
 
+                    JSONArray historyJsonArray = (JSONArray) userJson.get("history");
+                    History[] histories = new History[historyJsonArray.size()];
+                    for (int i = 0; i < historyJsonArray.size(); i++) {
+                        JSONObject historyJson = (JSONObject) historyJsonArray.get(i);
+                        History history = new History();
+                        history.setTimestamp((String) historyJson.get("timestamp"));
+                        history.setAccount((String) historyJson.get("account"));
+                        history.setAction((String) historyJson.get("action"));
+                        history.setAmount(((Number) historyJson.get("amount")).doubleValue());
+                        histories[i] = history;
+                    }
+
                     User user = new User(
                             userEmail,
                             (String) userJson.get("password"),
@@ -89,7 +114,8 @@ public class UserRepository {
                             (String) userJson.get("token"),
                             (String) userJson.get("proved"),
                             (String) userJson.get("account"),
-                            accounts
+                            accounts,
+                            histories
                     );
                     reader.close();
                     return user;
