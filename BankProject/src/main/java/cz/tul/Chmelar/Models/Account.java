@@ -10,12 +10,6 @@ public class Account {
     private String currency;
     private double amount;
 
-    public String getCurrency() {
-        return currency;
-    }
-    public double getBalance() {
-        return amount;
-    }
 
     @Override
     public String toString() {

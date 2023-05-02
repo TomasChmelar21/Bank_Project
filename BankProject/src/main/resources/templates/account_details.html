@@ -38,7 +38,13 @@
   <div>
     <div class="accounts">
       <h2>Účty:</h2>
-      <td th:text="${user.accounts}">ucty</td>
+      <h3>Měna:</h3>
+      <ul>
+        <li th:each="account : ${user.accounts}">
+          <span th:text="${account.currency}"></span>: <span th:text="${account.amount}"></span>
+        </li>
+      </ul>
+      <h3>Částka:</h3>
     </div>
     <div class="exchange_course">
       <h2>Aktuální kurz:</h2>
@@ -47,15 +53,6 @@
 
   <div>
     <h2>Funkce:</h2>
-    <div>
-
-      <h3>Měna:</h3>
-      <ul>
-        <!-- <li v-for="account in accounts">{{ account }}</li> -->
-      </ul>
-      <h3>Částka:</h3>
-      <!-- <p>{{ balance }}</p> -->
-    </div>
     <div class="buttons-container">
       <h3> <a th:href="@{/deposit}">Přidat peníze</a></h3>
       <h3> <a th:href="@{/payment}">Odeslat peníze</a></h3>

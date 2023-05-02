@@ -37,14 +37,7 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 '}';
     }
-
-    public String getAccounts() {
-        StringBuilder out = new StringBuilder();
-        for (Account account : accounts) {
-            out.append(account).append(",");
-        }
-        return out.toString();
-    }
+    
 
     public Account[] getAccountsArray() {
         return accounts;
