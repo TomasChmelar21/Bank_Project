@@ -12,32 +12,32 @@
 <body>
 <div class="container text-center">
   <div>
-    <h1>New Account</h1>
+    <h1>Nahrát peníze</h1>
   </div>
-  <form th:action="@{/process_deposit}" method="post"
-        style="max-width: 600px; margin: 0 auto;"
-        th:object="${account}">
+  <form th:action="@{/process_deposit}" method="post">
     <div class="m-3">
 
       <div class="form-group row">
         <div class="col-8">
-          <select th:field="*{currency}">
+          <select id="account_currency" name="currency">
             <option value="CZK">CZK</option>
             <option value="EUR">EUR</option>
-            <!-- ..... -->
+            <option value="GBN">GBN</option>
+            <option value="USD">USD</option>
+            <option value="PLN">PLN</option>
           </select>
         </div>
 
         <div>
-          <label class="col-form-label col-4">Částka</label>
+          <label class="col-form-label col-4">Částka:</label>
           <div class="col-8">
-            <input type="number" class="form-control" th:field="*{amount}" required />
+            <input type="number" id="amount" name="amount" />
           </div>
         </div>
       </div>
 
       <div>
-        <button type="submit" class="btn btn-primary">Potvrdit</button>
+        <button type="submit" th:formaction="@{/process_deposit}">Potvrdit</button>
       </div>
     </div>
   </form>

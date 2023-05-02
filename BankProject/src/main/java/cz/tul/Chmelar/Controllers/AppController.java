@@ -28,7 +28,6 @@ public class AppController {
         model.addAttribute("user", user);
         return "account_details";
     }
-
     @GetMapping("/login")
     public String returnlogin(){
         return "login";
