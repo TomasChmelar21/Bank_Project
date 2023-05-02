@@ -2,12 +2,15 @@ package cz.tul.Chmelar.Controllers;
 
 import cz.tul.Chmelar.Models.User;
 import cz.tul.Chmelar.Models.UserRepository;
+import cz.tul.Chmelar.Services.AppService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.io.IOException;
 
 @Controller
 public class UserController {
@@ -36,10 +39,14 @@ public class UserController {
     }
 
     @PostMapping("/process_deposit")
-    public String process_deposit(@RequestParam("currency") String currency, @RequestParam(value = "amount", defaultValue = "0") double amount, Model model, Authentication authentication){
+    public String process_deposit(@RequestParam("currency") String currency, @RequestParam(value = "amount", defaultValue = "0") double amount, Model model, Authentication authentication) throws IOException {
         String email = authentication.getName();
+
+        AppService.depositToAccount(email, currency, amount);
+
         User user = UserRepository.findByEmail(email);
         model.addAttribute("user", user);
+        
         return "account_details";
     }
 
