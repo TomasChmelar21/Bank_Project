@@ -56,7 +56,7 @@
           "timestamp": "2023-05-02 13:26:12.123",
           "account": "CZK",
           "action": "Deposit",
-          "amount": 100
+          "amount": 100.54
         },
         {
           "timestamp": "2023-05-02 13:28:11.321",
