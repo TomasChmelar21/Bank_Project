@@ -36,11 +36,7 @@ public class AppService {
                         transaction.put("action", "Deposit");
                         transaction.put("amount", amount);
                         history.put(transaction);
-                        FileWriter file = new FileWriter("src/main/resources/userdb.json");
-                        file.write(json.toString());
-                        file.flush();
-                        file.close();
-                        return true;
+                        return write_To_File(json);
                     }
                 }
             }
@@ -62,14 +58,22 @@ public class AppService {
                 new_Account.put("currency", currency);
                 new_Account.put("amount", 0);
                 accounts.put(new_Account);
-                FileWriter file = new FileWriter("src/main/resources/userdb.json");
-                file.write(json.toString());
-                file.flush();
-                file.close();
-                return true;
+                return write_To_File(json);
             }
         }
         return false;
+    }
+
+    private static Boolean write_To_File(JSONObject json) throws IOException {
+        try {
+            FileWriter file = new FileWriter("src/main/resources/userdb.json");
+            file.write(json.toString());
+            file.flush();
+            file.close();
+            return true;
+        }catch(Exception e){
+            return false;
+        }
     }
 
     private static String getContentOfJSON() throws IOException {
