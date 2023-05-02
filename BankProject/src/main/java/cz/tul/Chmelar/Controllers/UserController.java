@@ -46,7 +46,7 @@ public class UserController {
 
         User user = UserRepository.findByEmail(email);
         model.addAttribute("user", user);
-        
+
         return "account_details";
     }
 
