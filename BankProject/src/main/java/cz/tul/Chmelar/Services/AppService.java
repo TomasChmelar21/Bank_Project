@@ -99,6 +99,27 @@ public class AppService {
         return false;
     }
 
+    public static Boolean delete_Old_Account(String email, String currency) throws IOException {
+        String contents = getContentOfJSON();
+        JSONObject json = new JSONObject(contents);
+        JSONArray users = json.getJSONArray("users");
+
+        for (int i = 0; i < users.length(); i++) {
+            JSONObject user = users.getJSONObject(i);
+            if (user.getString("email").equals(email)) {
+                JSONArray accounts = user.getJSONArray("accounts");
+                for (int j = 0; j < accounts.length(); j++) {
+                    JSONObject account = accounts.getJSONObject(j);
+                    if (account.getString("currency").equals(currency)) {
+                        accounts.remove(j);
+                        return write_To_File(json);
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     private static Boolean write_To_File(JSONObject json) throws IOException {
         try {
             FileWriter file = new FileWriter("src/main/resources/userdb.json");

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+</head>
+
+<body>
+<div class="container text-center">
+    <div>
+        <h1>Smazat účet</h1>
+    </div>
+    <form th:action="@{/delete_old_account}" method="post">
+        <div class="m-3">
+
+            <div class="form-group row">
+                <div class="col-8">
+                    <select id="currency" name="currency">
+                        <option value="CZK">CZK</option>
+                        <option value="AUD">AUD</option>
+                        <option value="BRL">BRL</option>
+                        <option value="BGN">BGN</option>
+                        <option value="CNY">CNY</option>
+                        <option value="DKK">DKK</option>
+                        <option value="EUR">EUR</option>
+                        <option value="PHP">PHP</option>
+                        <option value="HKD">HKD</option>
+                        <option value="INR">INR</option>
+                        <option value="IDR">IDR</option>
+                        <option value="ISK">ISK</option>
+                        <option value="ILS">ILS</option>
+                        <option value="JPY">JPY</option>
+                        <option value="ZAR">ZAR</option>
+                        <option value="CAD">CAD</option>
+                        <option value="KRW">KRW</option>
+                        <option value="HUF">HUF</option>
+                        <option value="MYR">MYR</option>
+                        <option value="MXN">MXN</option>
+                        <option value="XDR">XDR</option>
+                        <option value="NOK">NOK</option>
+                        <option value="NZD">NZD</option>
+                        <option value="PLN">PLN</option>
+                        <option value="RON">RON</option>
+                        <option value="SGD">SGD</option>
+                        <option value="SEK">SEK</option>
+                        <option value="CHF">CHF</option>
+                        <option value="THB">THB</option>
+                        <option value="TRY">TRY</option>
+                        <option value="USD">USD</option>
+                        <option value="GBP">GBP</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div>
+                <button type="submit" th:formaction="@{/delete_old_account}">Potvrdit</button>
+            </div>
+        </div>
+    </form>
+    <div>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -39,6 +39,14 @@ public class UserController {
         return "open_account";
     }
 
+    @GetMapping("/delete_account")
+    public String delete_account(Model model, Authentication authentication){
+        String email = authentication.getName();
+        User user = UserRepository.findByEmail(email);
+        model.addAttribute("user", user);
+        return "delete_account";
+    }
+
     @PostMapping("/process_payment")
     public String process_payment(@RequestParam("currency") String currency, @RequestParam(value = "amount", defaultValue = "0") double amount, Model model, Authentication authentication) throws IOException {
         String email = authentication.getName();
@@ -68,6 +76,18 @@ public class UserController {
         String email = authentication.getName();
 
         AppService.create_New_Account(email, currency);
+
+        User user = UserRepository.findByEmail(email);
+        model.addAttribute("user", user);
+
+        return "account_details";
+    }
+
+    @PostMapping("/delete_old_account")
+    public String delete_old_account(@RequestParam("currency") String currency, Model model, Authentication authentication) throws IOException{
+        String email = authentication.getName();
+
+        AppService.delete_Old_Account(email, currency);
 
         User user = UserRepository.findByEmail(email);
         model.addAttribute("user", user);
