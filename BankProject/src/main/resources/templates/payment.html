@@ -24,61 +24,58 @@
         <h1>Platba</h1>
     </div>
     <form th:action="@{/process_payment}" method="post">
-        <div class="m-3">
+        <div class="card">
 
-            <div class="form-group row">
-
-                <div>
-                    <label class="col-form-label col-4">Účet</label>
-                    <div class="col-8">
-                        <input type="text" class="form-control" required />
-                    </div>
+            <div class="form_group">
+                <div class="payment_row">
+                <div class="card_element">
+                    <p class="payment_text">Měna:</p>
+                    <p class="payment_text" style="height: 2px;">Částka:</p>
                 </div>
 
-                <div class="col-8">
-                    <select id="account_currency" name="currency">
-                        <option value="CZK">CZK</option>
-                        <option value="AUD">AUD</option>
-                        <option value="BRL">BRL</option>
-                        <option value="BGN">BGN</option>
-                        <option value="CNY">CNY</option>
-                        <option value="DKK">DKK</option>
-                        <option value="EUR">EUR</option>
-                        <option value="PHP">PHP</option>
-                        <option value="HKD">HKD</option>
-                        <option value="INR">INR</option>
-                        <option value="IDR">IDR</option>
-                        <option value="ISK">ISK</option>
-                        <option value="ILS">ILS</option>
-                        <option value="JPY">JPY</option>
-                        <option value="ZAR">ZAR</option>
-                        <option value="CAD">CAD</option>
-                        <option value="KRW">KRW</option>
-                        <option value="HUF">HUF</option>
-                        <option value="MYR">MYR</option>
-                        <option value="MXN">MXN</option>
-                        <option value="XDR">XDR</option>
-                        <option value="NOK">NOK</option>
-                        <option value="NZD">NZD</option>
-                        <option value="PLN">PLN</option>
-                        <option value="RON">RON</option>
-                        <option value="SGD">SGD</option>
-                        <option value="SEK">SEK</option>
-                        <option value="CHF">CHF</option>
-                        <option value="THB">THB</option>
-                        <option value="TRY">TRY</option>
-                        <option value="USD">USD</option>
-                        <option value="GBP">GBP</option>
-                    </select>
-                </div>
+                <div class="card_element">
 
-                <div>
-                    <label class="col-form-label col-4">Částka:</label>
                     <div class="col-8">
-                        <input type="text" id="amount" name="amount" />
+                        <select id="account_currency" name="currency">
+                            <option value="CZK">CZK</option>
+                            <option value="AUD">AUD</option>
+                            <option value="BRL">BRL</option>
+                            <option value="BGN">BGN</option>
+                            <option value="CNY">CNY</option>
+                            <option value="DKK">DKK</option>
+                            <option value="EUR">EUR</option>
+                            <option value="PHP">PHP</option>
+                            <option value="HKD">HKD</option>
+                            <option value="INR">INR</option>
+                            <option value="IDR">IDR</option>
+                            <option value="ISK">ISK</option>
+                            <option value="ILS">ILS</option>
+                            <option value="JPY">JPY</option>
+                            <option value="ZAR">ZAR</option>
+                            <option value="CAD">CAD</option>
+                            <option value="KRW">KRW</option>
+                            <option value="HUF">HUF</option>
+                            <option value="MYR">MYR</option>
+                            <option value="MXN">MXN</option>
+                            <option value="XDR">XDR</option>
+                            <option value="NOK">NOK</option>
+                            <option value="NZD">NZD</option>
+                            <option value="PLN">PLN</option>
+                            <option value="RON">RON</option>
+                            <option value="SGD">SGD</option>
+                            <option value="SEK">SEK</option>
+                            <option value="CHF">CHF</option>
+                            <option value="THB">THB</option>
+                            <option value="TRY">TRY</option>
+                            <option value="USD">USD</option>
+                            <option value="GBP">GBP</option>
+                        </select>
                     </div>
+                    <input type="text" class="amount" name="amount"/>
                 </div>
             </div>
+            </div>
+
 
 
             <div>
