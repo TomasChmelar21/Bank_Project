@@ -1,73 +1,87 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeLeaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Uživatel</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-        crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Uživatel</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 
 <header>
-  <h1 class="bank-name">Moje Banka</h1>
-  <div class="logout">
-    <form th:action="@{/logout}" method="post">
-      <input type="submit" value="Odhlásit se" />
-    </form>
-  </div>
+    <div class="header_div">
+        <h1 class="bank-name">Moje Banka</h1>
+        <div class="logout">
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn btn-secondary">Odhlásit se</button>
+            </form>
+        </div>
+    </div>
 </header>
 
 <div class="mainContent">
-  <div class="info-container">
-    <h3 th:text="${user.firstName} + ' ' + ${user.lastName}">Celé jméno</h3>
+    <div class="user_info">
+        <table>
+            <tr>
+                <td colspan="2"><h2 th:text="${user.firstName} + ' ' + ${user.lastName}">Celé jméno</h2></td>
+            </tr>
+            <tr>
+                <td><p>Číslo účtu:</p></td>
+                <td><p th:text="${user.account}">number</p></td>
+            </tr>
+            <tr>
+                <td><p>E-mail:</p></td>
+                <td><p th:text="${user.email}">email</p></td>
+            </tr>
+        </table>
+    </div>
 
-    <div class="account_info">
-      <div class="infos">
-        <p>Číslo účtu:</p>
-        <p>E-mail:</p>
-      </div>
-      <div class="parameters">
-        <p th:text="${user.account}">number</p>
-        <p th:text="${user.email}">email</p>
-      </div>
-    </div>
-  </div>
 
-  <div>
-    <div class="accounts">
-      <h2>Účty:</h2>
-      <h3>Měna:</h3>
-      <ul>
-        <li th:each="account : ${user.accounts}">
-          <span th:text="${account.currency}"></span>: <span th:text="${account.amount}"></span>
-        </li>
-      </ul>
-      <h3>Částka:</h3>
+    <div class="table-container accounts">
+        <table>
+            <tr>
+                <td colspan="2"><h2>Účty:</h2></td>
+            </tr>
+            <tr>
+                <td><h3>Měna:</h3></td>
+                <td><h3>Částka:</h3></td>
+            </tr>
+            <tr th:each="account, isEven : ${user.accounts}" th:class="${isEven}? 'even' : 'odd'">
+                <td><span th:text="${account.currency}"></span>:</td>
+                <td><span th:text="${account.amount}"></span></td>
+            </tr>
+        </table>
     </div>
-    <div class="exchange_course">
-      <h2>Historie</h2>
-      <ul>
-        <li th:each="history : ${user.history}">
-          <span th:text="${history.timestamp}"></span>: <span th:text="${history.account}"></span>: <span th:text="${history.action}"></span>: <span th:text="${history.amount}"></span>
-        </li>
-      </ul>
+    <div class="table-container exchange-course">
+        <table>
+            <tr>
+                <td colspan="4"><h2>Historie</h2></td>
+            </tr>
+            <tr>
+                <td><h3>Datum:</h3></td>
+                <td><h3>Účet:</h3></td>
+                <td><h3>Akce:</h3></td>
+                <td><h3>Částka:</h3></td>
+            </tr>
+            <tr th:each="history, isEven : ${user.history}" th:class="${isEven}? 'even' : 'odd'">
+                <td><span th:text="${history.timestamp}"></span></td>
+                <td><span th:text="${history.account}"></span></td>
+                <td><span th:text="${history.action}"></span></td>
+                <td><span th:text="${history.amount}"></span></td>
+            </tr>
+        </table>
     </div>
-    <div class="exchange_course">
-      <h2>Aktuální kurz:</h2>
-    </div>
-  </div>
 
-  <div>
-    <h2>Funkce:</h2>
-    <div class="buttons-container">
-      <h3> <a th:href="@{/deposit}">Přidat peníze</a></h3>
-      <h3> <a th:href="@{/payment}">Odeslat peníze</a></h3>
-      <h3> <a th:href="@{/open_account}">Přidat účet</a></h3>
-      <h3> <a th:href="@{/delete_account}">Smazat účet</a></h3>
+    <div>
+        <h2>Funkce:</h2>
+        <div class="buttons_container">
+            <a th:href="@{/deposit}">Přidat peníze</a>
+            <a th:href="@{/payment}">Odeslat peníze</a>
+            <a th:href="@{/open_account}">Přidat účet</a>
+            <a th:href="@{/delete_account}">Smazat účet</a>
+        </div>
     </div>
-  </div>
 </div>
 </body>
 

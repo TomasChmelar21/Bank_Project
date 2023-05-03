@@ -33,7 +33,7 @@ public class AppService {
                         JSONObject transaction = new JSONObject();
                         transaction.put("timestamp", java.time.LocalDateTime.now().toString());
                         transaction.put("account", currency);
-                        transaction.put("action", "Deposit");
+                        transaction.put("action", "Přidáno");
                         transaction.put("amount", amount);
                         history.put(transaction);
                         return write_To_File(json);
@@ -59,17 +59,17 @@ public class AppService {
                     JSONObject account = accounts.getJSONObject(j);
                     if (account.getString("currency").equals(currency)) {
                         double current_Amount = account.getDouble("amount");
-                        if (current_Amount > amount){
-                        double new_Amount = current_Amount - amount;
-                        account.put("amount", new_Amount);
-                        JSONArray history = user.getJSONArray("history");
-                        JSONObject transaction = new JSONObject();
-                        transaction.put("timestamp", java.time.LocalDateTime.now().toString());
-                        transaction.put("account", currency);
-                        transaction.put("action", "Payment");
-                        transaction.put("amount", amount);
-                        history.put(transaction);
-                        return write_To_File(json);
+                        if (current_Amount > amount) {
+                            double new_Amount = current_Amount - amount;
+                            account.put("amount", new_Amount);
+                            JSONArray history = user.getJSONArray("history");
+                            JSONObject transaction = new JSONObject();
+                            transaction.put("timestamp", java.time.LocalDateTime.now().toString());
+                            transaction.put("account", currency);
+                            transaction.put("action", "Odesláno");
+                            transaction.put("amount", amount);
+                            history.put(transaction);
+                            return write_To_File(json);
                         }
                         return false;
                     }
@@ -127,7 +127,7 @@ public class AppService {
             file.flush();
             file.close();
             return true;
-        }catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
@@ -135,6 +135,7 @@ public class AppService {
     private static String getContentOfJSON() throws IOException {
         return new String(Files.readAllBytes(Paths.get("src/main/resources/userdb.json")));
     }
+
     public static String getAccountsFromJSON(String email) throws IOException {
         String contents = getContentOfJSON();
         JSONObject json = new JSONObject(contents);
@@ -148,7 +149,6 @@ public class AppService {
         }
         return null;
     }
-
 
 
 }

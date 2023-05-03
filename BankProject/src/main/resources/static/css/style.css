@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+html, body {
+  font-family: 'Roboto', sans-serif;
+}
+
+:root {
+  --primary-color: #008CBA;
+  --secondary-color: #4CAF50;
+  --tertiary-color: #E74C3C;
+  --background-color: #F0F0F0;
+  --text-color: #333333;
+}
+
+header {
+  background-color: var(--primary-color);
+}
+
+.header_div{
+    width: 100%;
+    display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      color: #FFFFFF;
+      padding: 20px;
+}
+
+.bank-name {
+  font-size: 2rem;
+  margin: 0;
+  margin-left: 20px;
+}
+
+.logout input[type="submit"] {
+  background-color: transparent;
+  color: #FFFFFF;
+  border: 2px solid #FFFFFF;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logout {
+  margin-right: 20px;
+}
+
+.logout input[type="submit"]:hover {
+  background-color: #FFFFFF;
+  color: var(--primary-color);
+}
+
+.mainContent {
+  background-color: var(--background-color);
+  padding: 20px;
+}
+
+.info-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.user_info {
+  background-color: #FFFFFF;
+  padding: 20px;
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
+  flex-basis: 45%;
+}
+
+.user_info td {
+    width: 200px;
+}
+
+.user_info h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+.user_info h3 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+  color: var(--text-color);
+}
+
+.user_info p {
+  margin: 0;
+}
+
+.accounts {
+  flex-basis: 50%;
+}
+
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-container td, .table-container th {
+  border: 2px solid var(--text-color);
+  padding: 10px;
+  text-align: center;
+}
+
+.table-container th {
+  background-color: var(--primary-color);
+  color: #FFFFFF;
+}
+
+.table-container td:first-child {
+  width: 30%;
+}
+
+.table-container td:last-child {
+  text-align: left;
+}
+
+.even {
+  background-color: #f2f2f2;
+}
+
+.odd {
+  background-color: #ffffff;
+}
+
+.buttons_container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.buttons_container a {
+  flex-basis: 45%;
+  margin: 10px 0;
+  background-color: var(--primary-color);
+  color: #000000;
+  padding: 20px;
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+
+.buttons_container a:hover {
+  background-color: #FFFFFF;
+  color: var(--primary-color);
+}
+
