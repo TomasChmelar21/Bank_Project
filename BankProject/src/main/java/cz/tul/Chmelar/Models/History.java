@@ -5,6 +5,9 @@ import lombok.Setter;
 
 import java.util.Date;
 
+/**
+ * Model for History of each payment and deposit
+ */
 @Getter
 @Setter
 public class History {
@@ -15,6 +18,11 @@ public class History {
     private double amount;
 
 
+    /**
+     * History to string
+     *
+     * @return history in String format
+     */
     @Override
     public String toString() {
         return "timestamp='" + timestamp + '\'' +

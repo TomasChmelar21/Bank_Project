@@ -10,67 +10,18 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Repository;
 
+/**
+ * User Repository with finding user in json methods
+ */
 @Repository
 public class UserRepository {
 
-//    File file = new File("log.json");
-
-    public static List<User> findAll() {
-        List<User> users = new ArrayList<>();
-
-        try {
-            FileReader reader = new FileReader("src/main/resources/userdb.json");
-            JSONParser parser = new JSONParser();
-            JSONObject logObject = (JSONObject) parser.parse(reader);
-
-            JSONArray usersArray = (JSONArray) logObject.get("users");
-
-            for (Object userObj : usersArray) {
-                JSONObject userJson = (JSONObject) userObj;
-
-                JSONArray accountsJsonArray = (JSONArray) userJson.get("accounts");
-                Account[] accounts = new Account[accountsJsonArray.size()];
-                for (int i = 0; i < accountsJsonArray.size(); i++) {
-                    JSONObject accountJson = (JSONObject) accountsJsonArray.get(i);
-                    Account account = new Account();
-                    account.setCurrency((String) accountJson.get("currency"));
-                    account.setAmount((double) accountJson.get("amount"));
-                    accounts[i] = account;
-                }
-                JSONArray historyJsonArray = (JSONArray) userJson.get("history");
-                History[] histories = new History[historyJsonArray.size()];
-                for (int i = 0; i < historyJsonArray.size(); i++) {
-                    JSONObject historyJson = (JSONObject) historyJsonArray.get(i);
-                    History history = new History();
-                    history.setTimestamp((String) historyJson.get("timestamp"));
-                    history.setAccount((String) historyJson.get("account"));
-                    history.setAction((String) historyJson.get("action"));
-                    history.setAmount((double) historyJson.get("amount"));
-                    histories[i] = history;
-                }
-
-                User user = new User(
-                        (String) userJson.get("email"),
-                        (String) userJson.get("password"),
-                        (String) userJson.get("firstName"),
-                        (String) userJson.get("lastName"),
-                        (String) userJson.get("token"),
-                        (String) userJson.get("proved"),
-                        (String) userJson.get("account"),
-                        accounts,
-                        histories
-                );
-                users.add(user);
-            }
-
-            reader.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return users;
-    }
-
+    /**
+     * return user based on email
+     *
+     * @param email - users email
+     * @return identified user
+     */
     public static User findByEmail(String email) {
         try {
             FileReader reader = new FileReader("src/main/resources/userdb.json");
