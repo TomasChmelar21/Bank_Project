@@ -3,6 +3,9 @@ package cz.tul.Chmelar.Models;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Model of Account
+ */
 @Getter
 @Setter
 public class Account {
@@ -10,7 +13,10 @@ public class Account {
     private String currency;
     private double amount;
 
-
+    /**
+     * Account to string
+     * @return string of account
+     */
     @Override
     public String toString() {
         return "currency='" + currency + '\'' +

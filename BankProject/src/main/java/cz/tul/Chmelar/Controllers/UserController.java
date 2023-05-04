@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 
+/**
+ * Controller which returning and proccess pages with user actions (deposit, payment, create/delete account)
+ */
 @Controller
 public class UserController {
 
