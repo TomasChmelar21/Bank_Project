@@ -92,7 +92,7 @@ public class UserController {
     public String process_payment(@RequestParam("currency") String currency, @RequestParam(value = "amount", defaultValue = "0") double amount, Model model, Authentication authentication) throws IOException {
         String email = authentication.getName();
 
-        AppService.payment_From_Account(email, currency, amount);
+        AppService.paymentFromAccount(email, currency, amount);
 
         User user = UserRepository.findByEmail(email);
         model.addAttribute("user", user);
@@ -114,7 +114,7 @@ public class UserController {
     public String process_deposit(@RequestParam("currency") String currency, @RequestParam(value = "amount", defaultValue = "0") double amount, Model model, Authentication authentication) throws IOException {
         String email = authentication.getName();
 
-        AppService.deposit_To_Account(email, currency, amount);
+        AppService.depositToAccount(email, currency, amount);
 
         User user = UserRepository.findByEmail(email);
         model.addAttribute("user", user);
@@ -135,7 +135,7 @@ public class UserController {
     public String process_new_account(@RequestParam("currency") String currency, Model model, Authentication authentication) throws IOException{
         String email = authentication.getName();
 
-        AppService.create_New_Account(email, currency);
+        AppService.createNewAccount(email, currency);
 
         User user = UserRepository.findByEmail(email);
         model.addAttribute("user", user);
@@ -156,7 +156,7 @@ public class UserController {
     public String delete_old_account(@RequestParam("currency") String currency, Model model, Authentication authentication) throws IOException{
         String email = authentication.getName();
 
-        AppService.delete_Old_Account(email, currency);
+        AppService.deleteOldAccount(email, currency);
 
         User user = UserRepository.findByEmail(email);
         model.addAttribute("user", user);

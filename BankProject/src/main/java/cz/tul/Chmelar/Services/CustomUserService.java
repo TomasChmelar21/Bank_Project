@@ -11,11 +11,19 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CustomUserService implements UserDetailsService {
-    //@Autowired
-    //private UserRepository repo;
+    @Autowired
+    private UserRepository repo;
+
+    /**
+     * find user by email and returning UserDetails
+     *
+     * @param email - email of user we want to find
+     * @return CustomUser
+     * @throws UsernameNotFoundException - Username(email) not found
+     */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = UserRepository.findByEmail(email);
+        User user = repo.findByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException("Uživatel nenalezen");
         }
