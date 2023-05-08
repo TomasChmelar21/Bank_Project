@@ -183,11 +183,37 @@ public class UserController {
     @PostMapping("/process_new_account")
     public String process_new_account(@RequestParam("currency") String currency, Model model, Authentication authentication) throws IOException{
         String email = authentication.getName();
+        Boolean wasSuccess;
+        String message = "";
 
-        AppService.createNewAccount(email, currency);
+        try{
+            if(AppService.userHasAccountOfCurrency(email,currency)){
+                wasSuccess = false;
+                message = "Účet s měnou " + currency + " už existuje";
+            }
+            else{
+                if(AppService.createNewAccount(email, currency)){
+                    wasSuccess = true;
+                    message = "Účet s měnou " + currency + " je úspěšně založený";
+                }
+                else {
+                    wasSuccess = false;
+                    message = "Účet s měnou " + currency + " se nepodařilo vytvořit";
+                }
+            }
+
+        }
+        catch(IOException e){
+            wasSuccess = false;
+            message = "Vyskytla se chyba";
+        }
+
 
         User user = UserRepository.findByEmail(email);
         model.addAttribute("user", user);
+        model.addAttribute("show", true);
+        model.addAttribute("success", wasSuccess);
+        model.addAttribute("message", message);
 
         return "account_details";
     }
@@ -204,11 +230,36 @@ public class UserController {
     @PostMapping("/delete_old_account")
     public String delete_old_account(@RequestParam("currency") String currency, Model model, Authentication authentication) throws IOException{
         String email = authentication.getName();
+        Boolean wasSuccess;
+        String message = "";
 
-        AppService.deleteOldAccount(email, currency);
+        try{
+            if(AppService.userHasAccountOfCurrency(email, currency)){
+                if(AppService.deleteOldAccount(email, currency)){
+                    wasSuccess = true;
+                    message = "Účet s měnou " + currency + " byl úspěšně smazán";
+                }
+                else{
+                    wasSuccess = false;
+                    message = "Účet s měnou " + currency + " se nepodařilo smazat";
+                }
+            }
+            else {
+                wasSuccess = false;
+                message = "Účet s měnou " + currency + " neexistuje";
+            }
+        }
+        catch(IOException e) {
+            wasSuccess = false;
+            message = "Vyskytla se chyba";
+        }
+
 
         User user = UserRepository.findByEmail(email);
         model.addAttribute("user", user);
+        model.addAttribute("show", true);
+        model.addAttribute("success", wasSuccess);
+        model.addAttribute("message", message);
 
         return "account_details";
     }
