@@ -121,7 +121,7 @@ public class UserController {
 
         return "account_details";
     }
-
+    
     /**
      * process new account from new account page
      *
