@@ -21,6 +21,14 @@
 </header>
 
 <div class="mainContent">
+    <div class="messages" th:if="${show}">
+        <div th:if="${success}" class="alert alert-success">
+            <p th:text="${message}"></p>
+        </div>
+        <div th:if="not ${success}" class="alert alert-danger">
+            <p th:text="${message}"></p>
+        </div>
+    </div>
     <div class="user_info">
         <table>
             <tr>

@@ -230,6 +230,33 @@ public class AppService {
         return new String(Files.readAllBytes(Paths.get("src/main/resources/userdb.json")));
     }
 
+    /**
+     * check if user has account with certain currency
+     *
+     * @param email - users email
+     * @param currency - currency of account which method searching
+     * @return true if user has account of currency
+     * @throws IOException
+     */
+    public static Boolean userHasAccountOfType(String email, String currency) throws IOException {
+        String contents = getContentOfJSON();
+        JSONObject json = new JSONObject(contents);
+        JSONArray users = json.getJSONArray("users");
+        for (int i = 0; i < users.length(); i++) {
+            JSONObject user = users.getJSONObject(i);
+            if (user.getString("email").equals(email)) {
+                JSONArray accounts = user.getJSONArray("accounts");
+                for (int j = 0; j < accounts.length(); j++) {
+                    JSONObject account = accounts.getJSONObject(j);
+                    if (account.getString("currency").equals(currency)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 
 
 }
