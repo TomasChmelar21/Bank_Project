@@ -238,7 +238,7 @@ public class AppService {
      * @return true if user has account of currency
      * @throws IOException
      */
-    public static Boolean userHasAccountOfType(String email, String currency) throws IOException {
+    public static Boolean userHasAccountOfCurrency(String email, String currency) throws IOException {
         String contents = getContentOfJSON();
         JSONObject json = new JSONObject(contents);
         JSONArray users = json.getJSONArray("users");

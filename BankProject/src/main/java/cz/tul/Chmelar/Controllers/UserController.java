@@ -91,13 +91,33 @@ public class UserController {
      * @throws IOException
      */
     @PostMapping("/process_payment")
-    public String process_payment(@RequestParam("currency") String currency, @RequestParam(value = "amount", defaultValue = "0") double amount, Model model, Authentication authentication) throws IOException {
+    public String process_payment(@RequestParam("currency") String currency, @RequestParam(value = "amount", defaultValue = "0") double amount, Model model, Authentication authentication) {
         String email = authentication.getName();
+        Boolean wasSuccess;
+        String message = "";
 
-        AppService.paymentFromAccount(email, currency, amount);
+        try{
+            if(AppService.paymentFromAccount(email, currency, amount)){
+                wasSuccess = true;
+                message = "Transakce v měně " + currency + " proběhla úspěšně";
+            }
+            else{
+                wasSuccess = false;
+                message = "Transakce v měně " + currency + " neproběhla, protože nejde ze žádného účtu zaplatit";
+            }
+        }
+        catch(IOException e){
+            wasSuccess = false;
+            message = "Vyskytla se chyba";
+        }
+
+
 
         User user = UserRepository.findByEmail(email);
         model.addAttribute("user", user);
+        model.addAttribute("show", true);
+        model.addAttribute("success", wasSuccess);
+        model.addAttribute("message", message);
 
         return "account_details";
     }
@@ -113,13 +133,40 @@ public class UserController {
      * @throws IOException
      */
     @PostMapping("/process_deposit")
-    public String process_deposit(@RequestParam("currency") String currency, @RequestParam(value = "amount", defaultValue = "0") double amount, Model model, Authentication authentication) throws IOException {
+    public String process_deposit(@RequestParam("currency") String currency, @RequestParam(value = "amount", defaultValue = "0") double amount, Model model, Authentication authentication) {
         String email = authentication.getName();
+        Boolean wasSuccess;
+        String message = "";
 
-        AppService.depositToAccount(email, currency, amount);
+
+        try{
+            if(AppService.userHasAccountOfCurrency(email, currency)) {
+                if(AppService.depositToAccount(email, currency, amount)){
+                    wasSuccess = true;
+                    message = "Transakce na účet " + currency + " proběhla úspěšně";
+                }
+                else{
+                    wasSuccess = false;
+                    message = "Transakce na účet " + currency + " se nezdařila";
+                }
+
+            }
+            else{
+                wasSuccess = false;
+                message = "Transakce na účet " + currency + " nemůže být provedena, protože účet neexistuje";
+            }
+        }
+        catch (IOException e){
+            wasSuccess = false;
+            message = "Vyskytla se chyba";
+        }
+
 
         User user = UserRepository.findByEmail(email);
         model.addAttribute("user", user);
+        model.addAttribute("show", true);
+        model.addAttribute("success", wasSuccess);
+        model.addAttribute("message", message);
 
         return "account_details";
     }
