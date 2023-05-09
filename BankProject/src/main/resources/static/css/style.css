@@ -224,5 +224,9 @@ header {
   color: var(--primary-color);
 }
 
+.goback {
+    margin-top: 20px;
+}
+
 
 
