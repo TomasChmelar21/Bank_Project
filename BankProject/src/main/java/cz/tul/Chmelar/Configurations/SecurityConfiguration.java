@@ -43,7 +43,12 @@ public class SecurityConfiguration {
                 .requestMatchers("/account_details"
                         , "/deposit"
                         , "/open_account"
-                        ,"/payment")
+                        ,"/payment"
+                        ,"/close_account"
+                        ,"/process_payment"
+                        ,"/process_deposit"
+                        ,"/process_new_account"
+                        ,"/delete_old_account")
                 .authenticated()
                 .anyRequest().permitAll()
                 .and()

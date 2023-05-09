@@ -231,6 +231,26 @@ public class AppService {
         return false;
     }
 
+    public static Boolean validateTwoFactorCode(String email, String token){
+        try {
+            String contents = getContentOfJSON();
+            JSONObject json = new JSONObject(contents);
+            JSONArray users = json.getJSONArray("users");
+            for (int i = 0; i < users.length(); i++) {
+                JSONObject user = users.getJSONObject(i);
+                if (user.getString("email").equals(email)) {
+                    if (user.getString("token").equals(token)){
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            return false;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * rewrite userdb file
      *

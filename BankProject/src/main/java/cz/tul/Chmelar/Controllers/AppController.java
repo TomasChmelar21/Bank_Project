@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import static cz.tul.Chmelar.Services.AppService.validateTwoFactorCode;
 import static cz.tul.Chmelar.Services.AppService.writeTokenToJson;
 import static cz.tul.Chmelar.Services.CustomUserService.generateTwoFactorCode;
 
@@ -101,7 +102,7 @@ public class AppController {
     }
 
     @PostMapping("/process_login")
-    public String process_login(User user, RedirectAttributes redirectAttributes) throws MessagingException, UnsupportedEncodingException {
+    public String process_login(User user, RedirectAttributes redirectAttributes) throws MessagingException {
         try {
             writeTokenToJson(user.getEmail(), generateTwoFactorCode());
             MimeMessage message = emailSender.createMimeMessage();
@@ -122,9 +123,8 @@ public class AppController {
     @GetMapping("/verify_token")
     public String verify_token(@RequestParam("email") String email, Model model) {
         model.addAttribute("email", email);
-        return "verify_token";
+        return "account_details";
     }
-
 
 
 }
