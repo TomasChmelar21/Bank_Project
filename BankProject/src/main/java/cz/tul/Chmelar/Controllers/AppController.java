@@ -70,9 +70,18 @@ public class AppController {
         return "login_success";
     }
 
+    /**
+     * redirect to account_details page if user want again process same action
+     *
+     * @param model - holder for model attributes
+     * @param authentication - authentication of user
+     * @return account_details page
+     */
     @RequestMapping(value = {"/process_payment", "/process_deposit", "/process_new_account", "/delete_old_account"})
     public String refreshURL(Model model, Authentication authentication){
         return "redirect:/account_details";
 
     }
+
+
 }

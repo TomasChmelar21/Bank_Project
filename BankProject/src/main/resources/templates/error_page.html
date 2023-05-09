@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeLeaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Špatná stránka</title>
+  <title>Chybová stránka</title>
   <link th:href = "@{/css/style.css}" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -19,8 +19,12 @@
   </div>
 </header>
 <div class="container text-center">
-  <div>
+  <div class="card errpage">
     <h3>Tato stránka neexistuje</h3>
+    <h3>Zadali jste špatnou stránku</h3>
+    <div class="goback">
+      <h3> <a th:href="@{/}">Zpět</a></h3>
+    </div>
   </div>
 </div>
 </body>
