@@ -4,6 +4,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -45,7 +47,9 @@ public class AppService {
                         account.put("amount", new_Amount);
                         JSONArray history = user.getJSONArray("history");
                         JSONObject transaction = new JSONObject();
-                        transaction.put("timestamp", java.time.LocalDateTime.now().toString());
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+                        String formattedDateTime = LocalDateTime.now().format(formatter);
+                        transaction.put("timestamp", formattedDateTime.toString());
                         transaction.put("account", currency);
                         transaction.put("action", "Přidáno");
                         transaction.put("amount", amount);
@@ -91,7 +95,9 @@ public class AppService {
                             account.put("amount", new_Amount);
                             JSONArray history = user.getJSONArray("history");
                             JSONObject transaction = new JSONObject();
-                            transaction.put("timestamp", java.time.LocalDateTime.now().toString());
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+                            String formattedDateTime = LocalDateTime.now().format(formatter);
+                            transaction.put("timestamp", formattedDateTime.toString());
                             transaction.put("account", currency);
                             transaction.put("action", "Odesláno");
                             transaction.put("amount", amount);
