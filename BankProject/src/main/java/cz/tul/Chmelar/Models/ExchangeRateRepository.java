@@ -56,6 +56,18 @@ public class ExchangeRateRepository {
     }
 
     /**
+     * get date from first row of Exchange rate file
+     *
+     * @return date from exchange rate file
+     */
+    public static String getExchangeRateTime() {
+        String[] exchangeRates = readExchangeRateFile().split("\n");
+        String output = exchangeRates[0];
+        output = output.substring(0, output.indexOf(' '));
+        return output;
+    }
+
+    /**
      * read exchange rates from src/main/resources/denni_kurz.txt file
      *
      * @return String of exchange rate text file

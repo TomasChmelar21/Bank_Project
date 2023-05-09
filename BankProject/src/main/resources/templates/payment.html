@@ -23,6 +23,11 @@
     <div>
         <h1>Platba</h1>
     </div>
+    <div class="messages" th:if="${show}">
+        <div class="alert alert-danger">
+            <p th:text="${message}"></p>
+        </div>
+    </div>
     <form th:action="@{/process_payment}" method="post">
         <div class="card">
 

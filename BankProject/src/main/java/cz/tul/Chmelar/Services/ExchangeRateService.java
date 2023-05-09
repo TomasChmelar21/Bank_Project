@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import static cz.tul.Chmelar.Models.ExchangeRateRepository.getExchangeRateByCurrency;
@@ -89,5 +91,25 @@ public class ExchangeRateService {
         double toRate = Double.parseDouble(exchangeTo.getExchangeRate().replaceAll(",","."));
         output = (amount / fromAmount) * (fromRate / toRate) * toAmount;
         return output;
+    }
+
+    /**
+     * check if exchange rates aren´t too old
+     *
+     * @param dateString - date from exchange file
+     * @return true if file is the newest it could be
+     */
+    public static boolean isDateSameOrEarlierThanTomorrow(String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate date = LocalDate.parse(dateString, formatter);
+        LocalDate today = LocalDate.now();
+        LocalTime cutoffTime = LocalTime.of(14, 45);
+        if (isHoliday(date) || date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY) {
+            return true;
+        }
+        if (date.isEqual(today) || (date.isEqual(today.plusDays(1)) && LocalTime.now().isBefore(cutoffTime))) {
+            return true;
+        }
+        return false;
     }
 }
