@@ -23,9 +23,9 @@ public class AppService {
     /**
      * deposit money to users account
      *
-     * @param email - users email
+     * @param email    - users email
      * @param currency - account where user want to deposit money
-     * @param amount - amount of depositing money
+     * @param amount   - amount of depositing money
      * @return true if everything is success
      * @throws IOException
      */
@@ -66,9 +66,9 @@ public class AppService {
     /**
      * pay money from users account
      *
-     * @param email - users email
+     * @param email    - users email
      * @param currency - currency in which user want to pay
-     * @param amount - amount of paying money
+     * @param amount   - amount of paying money
      * @return true if everything is success
      * @throws IOException
      */
@@ -103,8 +103,7 @@ public class AppService {
                             transaction.put("amount", amount);
                             history.put(transaction);
                             return writeToFile(json);
-                        }
-                        else {
+                        } else {
                             return paymentFromAnyAccount(user, accounts, currency, amount, json);
                         }
                     }
@@ -119,11 +118,11 @@ public class AppService {
     /**
      * pay from any users account that has enough money
      *
-     * @param user - user as JSONObject
+     * @param user     - user as JSONObject
      * @param accounts - users accounts as JSONArray
      * @param currency - currency in which user want to pay
-     * @param amount - amount of money user want to pay
-     * @param json - file of users
+     * @param amount   - amount of money user want to pay
+     * @param json     - file of users
      * @return true if everything is success
      * @throws IOException
      */
@@ -133,7 +132,7 @@ public class AppService {
             double current_Amount = account.getDouble("amount");
             double transferedtoCurrency = transferExchangeRateCount(currency, account.getString("currency"), amount);
             transferedtoCurrency = Math.round(transferedtoCurrency * 100.0) / 100.0;
-            if(transferedtoCurrency < current_Amount) {
+            if (transferedtoCurrency < current_Amount) {
                 double new_Amount = current_Amount - transferedtoCurrency;
                 new_Amount = Math.round(new_Amount * 100.0) / 100.0;
                 account.put("amount", new_Amount);
@@ -156,7 +155,7 @@ public class AppService {
     /**
      * method to create new users account
      *
-     * @param email - users email
+     * @param email    - users email
      * @param currency - currency user want to create account
      * @return true if everything is success
      * @throws IOException
@@ -183,7 +182,7 @@ public class AppService {
     /**
      * delete users account
      *
-     * @param email - users email
+     * @param email    - users email
      * @param currency - currency of account user want to delete
      * @return true if everything is success
      * @throws IOException
@@ -204,6 +203,29 @@ public class AppService {
                         return writeToFile(json);
                     }
                 }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * write new token to users json
+     *
+     * @param email - users email
+     * @param token - users new token
+     * @return true if everything is success
+     * @throws IOException
+     */
+    public static Boolean writeTokenToJson(String email, String token) throws IOException {
+        String contents = getContentOfJSON();
+        JSONObject json = new JSONObject(contents);
+        JSONArray users = json.getJSONArray("users");
+
+        for (int i = 0; i < users.length(); i++) {
+            JSONObject user = users.getJSONObject(i);
+            if (user.getString("email").equals(email)) {
+                user.put("token", token);
+                return writeToFile(json);
             }
         }
         return false;
@@ -241,7 +263,7 @@ public class AppService {
     /**
      * check if user has account with certain currency
      *
-     * @param email - users email
+     * @param email    - users email
      * @param currency - currency of account which method searching
      * @return true if user has account of currency
      * @throws IOException
@@ -264,7 +286,6 @@ public class AppService {
         }
         return false;
     }
-
 
 
 }
