@@ -139,7 +139,9 @@ public class AppService {
                 account.put("amount", new_Amount);
                 JSONArray history = user.getJSONArray("history");
                 JSONObject transaction = new JSONObject();
-                transaction.put("timestamp", java.time.LocalDateTime.now().toString());
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+                String formattedDateTime = LocalDateTime.now().format(formatter);
+                transaction.put("timestamp", formattedDateTime.toString());
                 transaction.put("account", account.getString("currency"));
                 transaction.put("action", "Odesláno");
                 transaction.put("amount", transferedtoCurrency);

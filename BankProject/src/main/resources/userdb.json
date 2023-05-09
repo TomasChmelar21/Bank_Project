@@ -40,7 +40,7 @@
       "password": "$2a$10$q.ta9BP8.4Cn7lGBsA82h.f8L8IDowxO.Org9hBKxTiAf8umgtuny",
       "accounts": [
         {
-          "amount": 1481.73,
+          "amount": 1463.87,
           "currency": "CZK"
         },
         {
@@ -50,6 +50,10 @@
         {
           "amount": 0,
           "currency": "ZAR"
+        },
+        {
+          "amount": 0,
+          "currency": "IDR"
         }
       ],
       "history": [
