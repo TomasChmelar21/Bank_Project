@@ -23,6 +23,11 @@ public class User {
     private Account[] accounts;
     private History[] history;
 
+    public User(String email, String token) {
+        this.email = email;
+        this.token = token;
+    }
+
 
     /**
      * User to String
