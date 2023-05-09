@@ -91,5 +91,29 @@
     </div>
 </div>
 
+<div class="card">
+    <div class="table-container exchange-course">
+        <table>
+            <tr>
+                <td colspan="5"><h2>Kurzy</h2></td>
+            </tr>
+            <tr>
+                <td><h3>Země:</h3></td>
+                <td><h3>Měna:</h3></td>
+                <td><h3>Množství:</h3></td>
+                <td><h3>Kód:</h3></td>
+                <td><h3>Kurz:</h3></td>
+            </tr>
+            <tr th:each="exchangeRate : ${exchangeRateList}">
+                <td><span th:text="${exchangeRate.state}"></span></td>
+                <td><span th:text="${exchangeRate.currency}"></span></td>
+                <td><span th:text="${exchangeRate.amount}"></span></td>
+                <td><span th:text="${exchangeRate.code}"></span></td>
+                <td><span th:text="${exchangeRate.exchangeRate}"></span></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
 </body>
 </html>

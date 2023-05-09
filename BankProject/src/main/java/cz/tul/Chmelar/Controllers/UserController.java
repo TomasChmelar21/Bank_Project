@@ -1,5 +1,7 @@
 package cz.tul.Chmelar.Controllers;
 
+import cz.tul.Chmelar.Models.ExchangeRate;
+import cz.tul.Chmelar.Models.ExchangeRateRepository;
 import cz.tul.Chmelar.Models.User;
 import cz.tul.Chmelar.Models.UserRepository;
 import cz.tul.Chmelar.Services.AppService;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Controller which returning and proccess pages with user actions (deposit, payment, create/delete account)
@@ -30,7 +33,9 @@ public class UserController {
     public String deposit(Model model, Authentication authentication){
         String email = authentication.getName();
         User user = UserRepository.findByEmail(email);
+        List<ExchangeRate> exchangeRateList = ExchangeRateRepository.getListOfExchangeRates();
         model.addAttribute("user", user);
+        model.addAttribute("exchangeRateList", exchangeRateList);
         return "deposit";
     }
 
@@ -45,7 +50,9 @@ public class UserController {
     public String payment(Model model, Authentication authentication){
         String email = authentication.getName();
         User user = UserRepository.findByEmail(email);
+        List<ExchangeRate> exchangeRateList = ExchangeRateRepository.getListOfExchangeRates();
         model.addAttribute("user", user);
+        model.addAttribute("exchangeRateList", exchangeRateList);
         return "payment";
     }
 
