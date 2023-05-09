@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
@@ -91,7 +92,7 @@ public class UserController {
      * @throws IOException
      */
     @PostMapping("/process_payment")
-    public String process_payment(@RequestParam("currency") String currency, @RequestParam(value = "amount", defaultValue = "0") double amount, Model model, Authentication authentication) {
+    public String process_payment(@RequestParam("currency") String currency, @RequestParam(value = "amount") double amount, Model model, Authentication authentication) {
         String email = authentication.getName();
         Boolean wasSuccess;
         String message = "";
@@ -133,7 +134,7 @@ public class UserController {
      * @throws IOException
      */
     @PostMapping("/process_deposit")
-    public String process_deposit(@RequestParam("currency") String currency, @RequestParam(value = "amount", defaultValue = "0") double amount, Model model, Authentication authentication) {
+    public String process_deposit(@RequestParam("currency") String currency, @RequestParam(value = "amount") double amount, Model model, Authentication authentication) {
         String email = authentication.getName();
         Boolean wasSuccess;
         String message = "";
@@ -263,4 +264,6 @@ public class UserController {
 
         return "account_details";
     }
+
+
 }

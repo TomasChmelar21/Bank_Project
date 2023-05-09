@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * Controller which returning pages based on url
@@ -67,5 +68,11 @@ public class AppController {
     @GetMapping("/login_success")
     public String login_success(){
         return "login_success";
+    }
+
+    @RequestMapping(value = {"/process_payment", "/process_deposit", "/process_new_account", "/delete_old_account"})
+    public String refreshURL(Model model, Authentication authentication){
+        return "redirect:/account_details";
+
     }
 }
