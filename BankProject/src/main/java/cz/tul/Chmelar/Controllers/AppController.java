@@ -102,8 +102,62 @@ public class AppController {
     }
 
 
-    @GetMapping("/login_redirect")
-    public String login_redirect(Model model, Authentication authentication) throws MessagingException{
+    @PostMapping("/login_redirect")
+    public String login_redirect(Model model, @RequestParam String email, @RequestParam String password) throws MessagingException{
+        User user = UserRepository.findByEmail(email);
+        model.addAttribute("email", email);
+        model.addAttribute("password", password);
+        if(user == null) {
+            return "redirect:/login?error=true";
+        }
+        model.addAttribute("user", user);
+        try {
+            writeTokenToJson(user.getEmail(), generateTwoFactorCode());
+            MimeMessage message = emailSender.createMimeMessage();
+            MimeMessageHelper message_Builder = new MimeMessageHelper(message);
+            message_Builder.setFrom("tom.chmelar2002@gmail.com", "Moje Banka");
+            message_Builder.setTo(user.getEmail());
+            message_Builder.setSubject("Banka - ověřovací kód");
+            message_Builder.setText("Váš ověřovací kód je: " + user.getToken(), true);
+            emailSender.send(message);
+            model.addAttribute("email", email);
+            model.addAttribute("password", password);
+            return "verify_token";
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("/verify_token")
+    public String verify_token(Model model) {
+        String email = (String) model.getAttribute("email");
+        String password = (String) model.getAttribute("password");
+        System.out.println("Email: " + email);
+        System.out.println("Password: " + password);
+        return "verify_token";
+    }
+
+    /*@GetMapping("/verify_token")
+    public String verify_token(User user, RedirectAttributes redirectAttributes) throws MessagingException {
+        try {
+            writeTokenToJson(user.getEmail(), generateTwoFactorCode());
+            MimeMessage message = emailSender.createMimeMessage();
+            MimeMessageHelper message_Builder = new MimeMessageHelper(message);
+            message_Builder.setFrom("tom.chmelar2002@gmail.com", "Moje Banka");
+            message_Builder.setTo(user.getEmail());
+            message_Builder.setSubject("Banka - ověřovací kód");
+            message_Builder.setText("Váš ověřovací kód je: " + user.getToken(), true);
+            emailSender.send(message);
+            redirectAttributes.addAttribute("email", user.getEmail());
+            return "redirect:/verify_token";
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }*/
+
+    /*@GetMapping("/verify_token")
+    public String verify_token(Model model, Authentication authentication, RedirectAttributes redirectAttributes) throws MessagingException {
         String email = authentication.getName();
         User user = UserRepository.findByEmail(email);
         model.addAttribute("user", user);
@@ -116,16 +170,18 @@ public class AppController {
             message_Builder.setSubject("Banka - ověřovací kód");
             message_Builder.setText("Váš ověřovací kód je: " + user.getToken(), true);
             emailSender.send(message);
+            redirectAttributes.addAttribute("email", user.getEmail());
             return "redirect:/verify_token";
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
-    @GetMapping("/verify_token")
-    public String verify_token(Model model) {
-        return "verify_token";
-    }
+    /* @GetMapping("/verify_token")
+    public String verify_token(@RequestParam("email") String email, Model model) {
+        model.addAttribute("email", email);
+        return "account_details";
+    } */
 
 
 
