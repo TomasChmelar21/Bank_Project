@@ -55,7 +55,7 @@ public class SecurityConfiguration {
                 .formLogin()
                 .loginPage("/login")
                 .usernameParameter("email")
-                .defaultSuccessUrl("/ahoj")
+                .defaultSuccessUrl("/login_redirect")
                 .permitAll()
                 .and()
                 .logout()

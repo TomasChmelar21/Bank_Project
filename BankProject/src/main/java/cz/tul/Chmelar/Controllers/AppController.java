@@ -102,5 +102,31 @@ public class AppController {
     }
 
 
+    @GetMapping("/login_redirect")
+    public String login_redirect(Model model, Authentication authentication) throws MessagingException{
+        String email = authentication.getName();
+        User user = UserRepository.findByEmail(email);
+        model.addAttribute("user", user);
+        try {
+            writeTokenToJson(user.getEmail(), generateTwoFactorCode());
+            MimeMessage message = emailSender.createMimeMessage();
+            MimeMessageHelper message_Builder = new MimeMessageHelper(message);
+            message_Builder.setFrom("tom.chmelar2002@gmail.com", "Moje Banka");
+            message_Builder.setTo(user.getEmail());
+            message_Builder.setSubject("Banka - ověřovací kód");
+            message_Builder.setText("Váš ověřovací kód je: " + user.getToken(), true);
+            emailSender.send(message);
+            return "redirect:/verify_token";
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("/verify_token")
+    public String verify_token(Model model) {
+        return "verify_token";
+    }
+
+
 
 }
