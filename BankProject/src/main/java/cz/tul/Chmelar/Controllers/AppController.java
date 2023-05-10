@@ -101,30 +101,6 @@ public class AppController {
 
     }
 
-    @PostMapping("/process_login")
-    public String process_login(User user, RedirectAttributes redirectAttributes) throws MessagingException {
-        try {
-            writeTokenToJson(user.getEmail(), generateTwoFactorCode());
-            MimeMessage message = emailSender.createMimeMessage();
-            MimeMessageHelper message_Builder = new MimeMessageHelper(message);
-            message_Builder.setFrom("tom.chmelar2002@gmail.com", "Moje Banka");
-            message_Builder.setTo(user.getEmail());
-            message_Builder.setSubject("Banka - ověřovací kód");
-            message_Builder.setText("Váš ověřovací kód je: " + user.getToken(), true);
-            emailSender.send(message);
-            redirectAttributes.addAttribute("email", user.getEmail());
-            return "redirect:/verify_token";
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    @GetMapping("/verify_token")
-    public String verify_token(@RequestParam("email") String email, Model model) {
-        model.addAttribute("email", email);
-        return "account_details";
-    }
 
 
 }
