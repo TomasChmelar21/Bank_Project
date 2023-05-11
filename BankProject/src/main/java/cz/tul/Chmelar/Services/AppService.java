@@ -104,11 +104,11 @@ public class AppService {
                             history.put(transaction);
                             return writeToFile(json);
                         } else {
-                            return paymentFromAnyAccount(user, accounts, currency, amount, json);
+                            return paymentFromCZAccount(user, accounts, currency, amount, json);
                         }
                     }
                 }
-                return paymentFromAnyAccount(user, accounts, currency, amount, json);
+                return paymentFromCZAccount(user, accounts, currency, amount, json);
             }
         }
 
@@ -126,11 +126,11 @@ public class AppService {
      * @return true if everything is success
      * @throws IOException
      */
-    public static Boolean paymentFromAnyAccount(JSONObject user, JSONArray accounts, String currency, double amount, JSONObject json) throws IOException {
+    public static Boolean paymentFromCZAccount(JSONObject user, JSONArray accounts, String currency, double amount, JSONObject json) throws IOException {
         for (int k = 0; k < accounts.length(); k++) {
             JSONObject account = accounts.getJSONObject(k);
             double current_Amount = account.getDouble("amount");
-            double transferedtoCurrency = transferExchangeRateCount(currency, account.getString("currency"), amount);
+            double transferedtoCurrency = transferExchangeRateCount(currency, amount);
             transferedtoCurrency = Math.round(transferedtoCurrency * 100.0) / 100.0;
             if (transferedtoCurrency < current_Amount) {
                 double new_Amount = current_Amount - transferedtoCurrency;
@@ -141,7 +141,7 @@ public class AppService {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
                 String formattedDateTime = LocalDateTime.now().format(formatter);
                 transaction.put("timestamp", formattedDateTime.toString());
-                transaction.put("account", account.getString("currency"));
+                transaction.put("account", "CZK");
                 transaction.put("action", "Odesláno");
                 transaction.put("amount", transferedtoCurrency);
                 history.put(transaction);

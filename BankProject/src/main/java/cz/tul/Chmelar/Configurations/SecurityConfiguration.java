@@ -1,5 +1,6 @@
 package cz.tul.Chmelar.Configurations;
 
+import cz.tul.Chmelar.Services.CustomAuthenticationService;
 import cz.tul.Chmelar.Services.CustomUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -53,7 +54,6 @@ public class SecurityConfiguration {
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                .loginPage("/login")
                 .usernameParameter("email")
                 .defaultSuccessUrl("/account_details")
                 .permitAll()

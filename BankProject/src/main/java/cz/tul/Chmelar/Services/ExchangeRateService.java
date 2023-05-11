@@ -30,7 +30,6 @@ public class ExchangeRateService {
             try {
                 FileWriter writetoFile = new FileWriter("src/main/resources/denni_kurz.txt", false);
                 writetoFile.write(htmlContent);
-                writetoFile.write("Česko|koruna|1|CZK|1");
                 writetoFile.close();
             } catch (IOException e) {
                 throw new RuntimeException();
@@ -74,22 +73,18 @@ public class ExchangeRateService {
      * transfer amount from one rate to other
      *
      * @param currencyFrom - currency from we transfering
-     * @param currencyTo - currency to we transfering
      * @param amount - amount we want to transfer
      * @return transform amount from currencyFrom to currencyTo
      */
-    public static double transferExchangeRateCount(String currencyFrom, String currencyTo, double amount) {
+    public static double transferExchangeRateCount(String currencyFrom, double amount) {
         double output = amount;
-        if (currencyFrom.equalsIgnoreCase(currencyTo)) {
+        if (currencyFrom.equalsIgnoreCase("CZK")) {
             return output;
         }
         ExchangeRate exchangeFrom = getExchangeRateByCurrency(currencyFrom);
-        ExchangeRate exchangeTo = getExchangeRateByCurrency(currencyTo);
         double fromAmount = Double.parseDouble(exchangeFrom.getAmount().replaceAll(",","."));
         double fromRate = Double.parseDouble(exchangeFrom.getExchangeRate().replaceAll(",","."));
-        double toAmount = Double.parseDouble(exchangeTo.getAmount().replaceAll(",","."));
-        double toRate = Double.parseDouble(exchangeTo.getExchangeRate().replaceAll(",","."));
-        output = (amount / fromAmount) * (fromRate / toRate) * toAmount;
+        output = (amount / fromAmount) * fromRate;
         return output;
     }
 
@@ -105,6 +100,9 @@ public class ExchangeRateService {
         LocalDate today = LocalDate.now();
         LocalTime cutoffTime = LocalTime.of(14, 45);
         if (isHoliday(date) || date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY) {
+            return true;
+        }
+        if (date.getDayOfWeek() == DayOfWeek.MONDAY && LocalTime.now().isBefore(cutoffTime)) {
             return true;
         }
         if (date.isEqual(today) || (date.isEqual(today.plusDays(1)) && LocalTime.now().isBefore(cutoffTime))) {
