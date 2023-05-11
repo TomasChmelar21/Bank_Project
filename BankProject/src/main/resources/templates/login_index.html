@@ -3,27 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <title>Moje Banka</title>
-  <link th:href = "@{/css/style.css}" rel="stylesheet">
+  <link th:href="@{/css/style.css}" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <header>
-  <div class="logoutSection">
+  <div class="header_div">
+    <h1 class="bank-name">Moje Banka</h1>
   </div>
 </header>
-<div class="container text-center">
-  <div>
-    <h1>Moje Banka</h1>
-  </div>
-  <div>
-    <h3> <a th:href="@{/account_details}">Zobrazit účet</a></h3>
-  </div>
-</div>
-<div>
-  <form th:href="@{/account_details}" method="post">
-    <input type="submit" value="Odhlásit se" />
+<h1>Potvrzení</h1>
+<div class="card">
+  <form name="myform" method="post" th:action="@{/login_process}">
+    <input type="hidden" name="email" th:value="${email}" />
+    <input type="hidden" name="password" th:value="${password}" />
+    <noscript>
+      <input type="submit" value="Click here to continue" />
+    </noscript>
   </form>
 </div>
+<script type="text/javascript">
+  $(document).ready(function() {
+    document.myform.submit();
+  });
+</script>
 </body>
 </html>

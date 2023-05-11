@@ -15,12 +15,14 @@
 </header>
 <h1>Potvrzení</h1>
 <div class="card">
-    <form method="post" action="/login">
+    <form method="post" th:action="@{/verify_login}">
         <input type="hidden" name="email" th:value="${email}"/>
         <input type="hidden" name="password" th:value="${password}"/>
         <label for="token">Token:</label>
         <input type="text" name="token" id="token"/>
-        <button type="submit">Submit</button>
+        <div class="form-actions" style="margin-top: 12px;">
+            <button type="submit" class="btn btn-success">Ověřit</button>
+        </div>
     </form>
 </div>
 </body>

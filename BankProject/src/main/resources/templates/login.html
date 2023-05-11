@@ -18,7 +18,7 @@
     <form name="f" th:action="@{/login_redirect}" method="post">
         <fieldset>
             <div th:if="${param.error}" class="alert alert-danger">
-                Špatné jméno nebo heslo.
+                Špatné jméno, heslo nebo token.
             </div>
 
             <div th:if="${param.logout}" class="alert alert-success">

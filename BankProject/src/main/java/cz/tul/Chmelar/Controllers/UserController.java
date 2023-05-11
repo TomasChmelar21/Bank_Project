@@ -137,7 +137,7 @@ public class UserController {
         model.addAttribute("success", wasSuccess);
         model.addAttribute("message", message);
 
-        return "redirect:/account_details";
+        return "account_details";
     }
 
     /**
@@ -183,7 +183,7 @@ public class UserController {
         model.addAttribute("success", wasSuccess);
         model.addAttribute("message", message);
 
-        return "redirect:/account_details";
+        return "account_details";
     }
 
     /**
@@ -227,7 +227,7 @@ public class UserController {
         model.addAttribute("success", wasSuccess);
         model.addAttribute("message", message);
 
-        return "redirect:/account_details";
+        return "account_details";
     }
 
     /**
@@ -270,7 +270,7 @@ public class UserController {
         model.addAttribute("success", wasSuccess);
         model.addAttribute("message", message);
 
-        return "redirect:/account_details";
+        return "account_details";
     }
 
 

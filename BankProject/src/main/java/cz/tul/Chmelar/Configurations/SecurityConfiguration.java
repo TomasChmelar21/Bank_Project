@@ -1,8 +1,6 @@
 package cz.tul.Chmelar.Configurations;
 
-import cz.tul.Chmelar.Services.CustomAuthenticationService;
 import cz.tul.Chmelar.Services.CustomUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -38,6 +36,8 @@ public class SecurityConfiguration {
 
     }
 
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -54,6 +54,7 @@ public class SecurityConfiguration {
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
+                .loginPage("/login_process")
                 .usernameParameter("email")
                 .defaultSuccessUrl("/account_details")
                 .permitAll()
@@ -67,4 +68,5 @@ public class SecurityConfiguration {
 
         return http.build();
     }
+
 }
