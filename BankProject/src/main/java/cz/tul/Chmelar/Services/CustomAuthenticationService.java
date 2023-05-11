@@ -1,34 +1,34 @@
 package cz.tul.Chmelar.Services;
 
 import cz.tul.Chmelar.Models.User;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
-public class CustomAuthenticationService {
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import java.io.IOException;
 
-    private final UserDetailsService userDetailsService;
+public class CustomAuthenticationService extends UsernamePasswordAuthenticationFilter {
+    private final AuthenticationManager authenticationManager;
 
-    public CustomAuthenticationService(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public CustomAuthenticationService(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
     }
 
-    public void check(UserDetails user) {
-        if (user instanceof User) {
-            User appUser = (User) user;
-            String providedToken = obtainProvidedToken();
-
-            if (!appUser.getToken().equals(providedToken)) {
-                throw new BadCredentialsException("Invalid token");
-            }
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        try {
+            User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
+            return authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword())
+            );
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to parse authentication request", e);
         }
-    }
-
-    private String obtainProvidedToken() {
-        // Implement the logic to retrieve the provided token from the request
-        // For example, using a request parameter or header
-        // Replace the return statement with your implementation
-        return null;
     }
 }
 

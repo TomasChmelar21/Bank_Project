@@ -87,20 +87,7 @@ public class AppController {
     public String login_success() {
         return "login_success";
     }
-
-    /**
-     * redirect to account_details page if user want again process same action
-     *
-     * @param model          - holder for model attributes
-     * @param authentication - authentication of user
-     * @return account_details page
-     */
-    @RequestMapping(value = {"/process_payment", "/process_deposit", "/process_new_account", "/delete_old_account"})
-    public String refreshURL(Model model, Authentication authentication) {
-        return "redirect:/account_details";
-
-    }
-
+    
 
     @PostMapping("/login_redirect")
     public String login_redirect(Model model, @RequestParam String email, @RequestParam String password) throws MessagingException{
@@ -132,6 +119,9 @@ public class AppController {
     public String verify_token(Model model) {
         String email = (String) model.getAttribute("email");
         String password = (String) model.getAttribute("password");
+        if(email == null) {
+            return "redirect:/login";
+        }
         System.out.println("Email: " + email);
         System.out.println("Password: " + password);
         return "verify_token";
