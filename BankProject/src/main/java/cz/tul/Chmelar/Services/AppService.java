@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -45,16 +46,9 @@ public class AppService {
                         double current_Amount = account.getDouble("amount");
                         double new_Amount = current_Amount + amount;
                         account.put("amount", new_Amount);
-                        JSONArray history = user.getJSONArray("history");
-                        JSONObject transaction = new JSONObject();
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-                        String formattedDateTime = LocalDateTime.now().format(formatter);
-                        transaction.put("timestamp", formattedDateTime.toString());
-                        transaction.put("account", currency);
-                        transaction.put("action", "Přidáno");
-                        transaction.put("amount", amount);
-                        history.put(transaction);
-                        return writeToFile(json);
+                        if(updateTransactionHistory(user, currency, "Přidáno", amount)) {
+                            return writeToFile(json);
+                        }
                     }
                 }
             }
@@ -93,16 +87,9 @@ public class AppService {
                             double new_Amount = current_Amount - amount;
                             new_Amount = Math.round(new_Amount * 100.0) / 100.0;
                             account.put("amount", new_Amount);
-                            JSONArray history = user.getJSONArray("history");
-                            JSONObject transaction = new JSONObject();
-                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-                            String formattedDateTime = LocalDateTime.now().format(formatter);
-                            transaction.put("timestamp", formattedDateTime.toString());
-                            transaction.put("account", currency);
-                            transaction.put("action", "Odesláno");
-                            transaction.put("amount", amount);
-                            history.put(transaction);
-                            return writeToFile(json);
+                            if(updateTransactionHistory(user, currency, "Odesláno", amount)) {
+                                return writeToFile(json);
+                            }
                         } else {
                             return paymentFromCZAccount(user, accounts, currency, amount, json);
                         }
@@ -130,22 +117,15 @@ public class AppService {
         for (int k = 0; k < accounts.length(); k++) {
             JSONObject account = accounts.getJSONObject(k);
             double current_Amount = account.getDouble("amount");
-            double transferedtoCurrency = transferExchangeRateCount(currency, amount);
-            transferedtoCurrency = Math.round(transferedtoCurrency * 100.0) / 100.0;
-            if (transferedtoCurrency < current_Amount) {
-                double new_Amount = current_Amount - transferedtoCurrency;
+            double transferredtoCurrency = transferExchangeRateCount(currency, amount);
+            transferredtoCurrency = Math.round(transferredtoCurrency * 100.0) / 100.0;
+            if (transferredtoCurrency < current_Amount) {
+                double new_Amount = current_Amount - transferredtoCurrency;
                 new_Amount = Math.round(new_Amount * 100.0) / 100.0;
                 account.put("amount", new_Amount);
-                JSONArray history = user.getJSONArray("history");
-                JSONObject transaction = new JSONObject();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-                String formattedDateTime = LocalDateTime.now().format(formatter);
-                transaction.put("timestamp", formattedDateTime.toString());
-                transaction.put("account", "CZK");
-                transaction.put("action", "Odesláno");
-                transaction.put("amount", transferedtoCurrency);
-                history.put(transaction);
-                return writeToFile(json);
+                if(updateTransactionHistory(user, "CZK", "Odesláno", transferredtoCurrency)) {
+                    return writeToFile(json);
+                }
 
             }
         }
@@ -250,6 +230,34 @@ public class AppService {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Updates the transaction history of a user.
+     *
+     * @param user     - user as JSONObject
+     * @param account  - account in which the transaction occurred
+     * @param action   - description of the transaction action
+     * @param amount   - amount of money involved in the transaction
+     * @return - return true if transaction go correct
+     */
+    private static Boolean updateTransactionHistory(JSONObject user, String account, String action, double amount) {
+        try {
+            JSONArray history = user.getJSONArray("history");
+            JSONObject transaction = new JSONObject();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+            String formattedDateTime = LocalDateTime.now().format(formatter);
+            transaction.put("timestamp", formattedDateTime.toString());
+            transaction.put("account", account);
+            transaction.put("action", action);
+            transaction.put("amount", amount);
+            history.put(transaction);
+            return true;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     /**
      * rewrite userdb file
