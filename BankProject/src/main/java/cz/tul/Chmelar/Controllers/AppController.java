@@ -4,7 +4,9 @@ import cz.tul.Chmelar.Models.User;
 import cz.tul.Chmelar.Models.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -110,14 +112,13 @@ public class AppController {
      * redirect user from login page to token page
      *
      * @param model - holder for model attributes
-     * @param redirectAttributes - holder for redirected attributes
      * @param email - users email
      * @param password - users password
-     * @return if login informations are wrong it return login page if its correct it return verify page
+     * @return if login information are wrong it return login page if its correct it return verify page
      * @throws MessagingException
      */
     @PostMapping("/login_redirect")
-    public String login_redirect(Model model, RedirectAttributes redirectAttributes, @RequestParam String email, @RequestParam String password) throws MessagingException{
+    public String login_redirect(Model model, HttpServletResponse response, @RequestParam String email, @RequestParam String password) throws MessagingException{
         User user = UserRepository.findByEmail(email);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         model.addAttribute("email", email);
@@ -125,6 +126,14 @@ public class AppController {
         if(user == null || !passwordEncoder.matches(password, user.getPassword())) {
             return "redirect:/login?error=true";
         }
+        Cookie emailCookie = new Cookie("email", email);
+        emailCookie.setMaxAge(604800);
+        response.addCookie(emailCookie);
+
+        Cookie passwordCookie = new Cookie("password", password);
+        passwordCookie.setMaxAge(604800);
+        response.addCookie(passwordCookie);
+
         model.addAttribute("user", user);
         try {
             String newToken = generateTwoFactorCode();
@@ -136,8 +145,6 @@ public class AppController {
             message_Builder.setSubject("Banka - ověřovací kód");
             message_Builder.setText("Váš ověřovací kód je: " + newToken, true);
             emailSender.send(message);
-            redirectAttributes.addAttribute("email", email);
-            redirectAttributes.addAttribute("password", password);
             return "verify_token";
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -149,13 +156,27 @@ public class AppController {
      *
      * @param model - holder for model attributes
      * @param token - users proving token
-     * @param email - users email
-     * @param password - users password
      * @return form for automatic sign in
      */
     @PostMapping("/verify_login")
-    public String verify_login(Model model, @RequestParam String token, @ModelAttribute("email") String email, @ModelAttribute("password") String password) {
+    public String verify_login(Model model, @RequestParam String token, HttpServletRequest request) {
+
+        Cookie[] cookies = request.getCookies();
+        String email = null;
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("email")) {
+                    email = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
         User user = UserRepository.findByEmail(email);
+        if(user == null) {
+            return "redirect:/login?error=true";
+        }
         if(!user.getToken().equals(token)) {
             return "redirect:/login?error=true";
         }

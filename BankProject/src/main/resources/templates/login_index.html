@@ -17,8 +17,8 @@
 <h1>Potvrzení</h1>
 <div class="card">
   <form name="myform" method="post" th:action="@{/login_process}">
-    <input type="hidden" name="email" th:value="${email}" />
-    <input type="hidden" name="password" th:value="${password}" />
+    <input type="hidden" name="email" id="emailInput" />
+    <input type="hidden" name="password" id="passwordInput" />
     <noscript>
       <input type="submit" value="Click here to continue" />
     </noscript>
@@ -26,8 +26,28 @@
 </div>
 <script type="text/javascript">
   $(document).ready(function() {
+    var email = getCookie("email");
+    var password = getCookie("password");
+
+    document.getElementById("emailInput").value = email;
+    document.getElementById("passwordInput").value = password;
+
     document.myform.submit();
   });
+
+  function getCookie(name) {
+    var cookieArr = document.cookie.split(";");
+
+    for (var i = 0; i < cookieArr.length; i++) {
+      var cookiePair = cookieArr[i].split("=");
+
+      if (name === cookiePair[0].trim()) {
+        return decodeURIComponent(cookiePair[1]);
+      }
+    }
+
+    return null;
+  }
 </script>
 </body>
 </html>

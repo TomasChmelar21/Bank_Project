@@ -16,8 +16,6 @@
 <h1>Potvrzení</h1>
 <div class="card">
     <form method="post" th:action="@{/verify_login}">
-        <input type="hidden" name="email" th:value="${email}"/>
-        <input type="hidden" name="password" th:value="${password}"/>
         <label for="token">Token:</label>
         <input type="text" name="token" id="token"/>
         <div class="form-actions" style="margin-top: 12px;">
