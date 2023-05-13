@@ -178,7 +178,7 @@ public class AppController {
             return "redirect:/login?error=true";
         }
         if(!user.getToken().equals(token)) {
-            return "redirect:/login?error=true";
+            return "redirect:/verify_token?error=true";
         }
 
         return "login_index";
@@ -224,11 +224,10 @@ public class AppController {
         }
     }*/
 
-    /* @GetMapping("/verify_token")
-    public String verify_token(@RequestParam("email") String email, Model model) {
-        model.addAttribute("email", email);
-        return "account_details";
-    } */
+    @GetMapping("/verify_token")
+    public String verify_token(Model model) {
+        return "verify_token";
+    }
 
 
 
