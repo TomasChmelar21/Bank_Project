@@ -33,6 +33,9 @@ public class UserController {
     public String deposit(Model model, Authentication authentication) {
         String email = authentication.getName();
         User user = UserRepository.findByEmail(email);
+        if (user == null){
+            return "error_page";
+        }
         List<ExchangeRate> exchangeRateList = ExchangeRateRepository.getListOfExchangeRates();
         model.addAttribute("user", user);
         model.addAttribute("exchangeRateList", exchangeRateList);
@@ -51,6 +54,9 @@ public class UserController {
     public String payment(Model model, Authentication authentication) {
         String email = authentication.getName();
         User user = UserRepository.findByEmail(email);
+        if (user == null){
+            return "error_page";
+        }
         Boolean wasSuccess = true;
         String message = "";
 
@@ -78,6 +84,9 @@ public class UserController {
     public String open_account(Model model, Authentication authentication) {
         String email = authentication.getName();
         User user = UserRepository.findByEmail(email);
+        if (user == null){
+            return "error_page";
+        }
         model.addAttribute("user", user);
         return "open_account";
     }
@@ -93,6 +102,9 @@ public class UserController {
     public String delete_account(Model model, Authentication authentication) {
         String email = authentication.getName();
         User user = UserRepository.findByEmail(email);
+        if (user == null){
+            return "error_page";
+        }
         model.addAttribute("user", user);
         return "delete_account";
     }

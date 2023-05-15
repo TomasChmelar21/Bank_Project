@@ -117,7 +117,7 @@ public class AppService {
         for (int k = 0; k < accounts.length(); k++) {
             JSONObject account = accounts.getJSONObject(k);
             double current_Amount = account.getDouble("amount");
-            double transferredtoCurrency = transferExchangeRateCount(currency, amount);
+            double transferredtoCurrency = transferExchangeRateCount("src/main/resources/denni_kurz.txt", currency, amount);
             transferredtoCurrency = Math.round(transferredtoCurrency * 100.0) / 100.0;
             if (transferredtoCurrency < current_Amount) {
                 double new_Amount = current_Amount - transferredtoCurrency;

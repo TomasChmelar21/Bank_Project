@@ -8,9 +8,8 @@ import org.apache.hc.core5.http.ParseException;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.springframework.stereotype.Repository;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class ExchangeRateRepository {
      */
     public static List<ExchangeRate> getListOfExchangeRates() {
         List<ExchangeRate> exchangeRateList = new ArrayList<>();
-        String[][] exchangeRateArray = getExchangeRateArray();
+        String[][] exchangeRateArray = getExchangeRateArray("src/main/resources/denni_kurz.txt");
         for (String[] exchangeRate : exchangeRateArray) {
             ExchangeRate exchangeRateObj = new ExchangeRate(
                     exchangeRate[0],
@@ -44,11 +43,11 @@ public class ExchangeRateRepository {
      *
      * @return String[][] of exchange rates
      */
-    public static String[][] getExchangeRateArray() {
-        String[] exchangeRates = readExchangeRateFile("src/main/resources/denni_kurz.txt").split("\n");
-        String[][] output = new String[exchangeRates.length - 3][5];
-        for (int i = 0; i < exchangeRates.length - 3; i++) {
-            String line = exchangeRates[i + 3];
+    public static String[][] getExchangeRateArray(String filePath) {
+        String[] exchangeRates = readExchangeRateFile(filePath).split("\n");
+        String[][] output = new String[exchangeRates.length - 2][5];
+        for (int i = 0; i < exchangeRates.length - 2; i++) {
+            String line = exchangeRates[i + 2];
             output[i] = line.split("\\|");
         }
         return output;
@@ -92,14 +91,14 @@ public class ExchangeRateRepository {
      * @param url - URL address of html we want to read
      * @return - String of html page
      */
-    public static String getHtmlOfRates(String url) {
+    public static String getHtmlOfRates(String url) throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet request = new HttpGet(url);
 
         try (CloseableHttpResponse response = httpClient.execute(request)) {
             return EntityUtils.toString(response.getEntity());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw e;
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -111,8 +110,8 @@ public class ExchangeRateRepository {
      * @param currency - shortcut of currency
      * @return ExchangeRate of currency
      */
-    public static ExchangeRate getExchangeRateByCurrency(String currency) {
-        String[][] exchangeRates  = getExchangeRateArray();
+    public static ExchangeRate getExchangeRateByCurrency(String filePath, String currency) {
+        String[][] exchangeRates  = getExchangeRateArray(filePath);
         for (String[] rate : exchangeRates) {
             if (rate[3].equalsIgnoreCase(currency)) {
                 ExchangeRate Exchangerate = new ExchangeRate(rate[0], rate[1], rate[2], rate[3], rate[4]);
@@ -122,4 +121,4 @@ public class ExchangeRateRepository {
         return null;
     }
 
-}
+    }

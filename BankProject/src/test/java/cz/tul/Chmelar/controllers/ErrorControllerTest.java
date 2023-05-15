@@ -1,6 +1,10 @@
 package cz.tul.Chmelar.controllers;
 
+import cz.tul.Chmelar.models.UserRepository;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.springframework.security.core.Authentication;
+import org.springframework.ui.Model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,4 +29,10 @@ class ErrorControllerTest {
         assertNotEquals("error_page_one", result);
 
     }
+
+
+
+
 }
+
+

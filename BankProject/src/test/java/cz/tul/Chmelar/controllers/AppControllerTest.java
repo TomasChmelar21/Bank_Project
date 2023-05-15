@@ -1,18 +1,21 @@
 package cz.tul.Chmelar.controllers;
 
-import cz.tul.Chmelar.configuration.TestSecurityConfiguration;
 import cz.tul.Chmelar.models.UserRepository;
+import jakarta.mail.MessagingException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 
-import static org.junit.jupiter.api.Assertions.*;
-import org.springframework.test.context.ContextConfiguration;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
-@ContextConfiguration(classes = TestSecurityConfiguration.class)
 class AppControllerTest {
-
     @Mock
     private UserRepository userRepository;
 

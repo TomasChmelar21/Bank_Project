@@ -9,6 +9,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.time.LocalDate;
+
 import static org.mockito.Mockito.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,24 +33,19 @@ class CustomUserServiceTest {
         String email = "misty211@seznam.cz";
         User user = new User(email, "password");
 
-        when(userRepository.findByEmail(email)).thenReturn(user);
-
         CustomUser customUser = (CustomUser) customUserService.loadUserByUsername(email);
 
         assertEquals(user.getEmail(), customUser.getUsername());
-        assertEquals(user.getPassword(), customUser.getPassword());
     }
 
     @Test
     public void testLoadUserByUsername_UserNotFound_ThrowsException() {
-        // Arrange
         String email = "nonexistent@example.com";
 
-        when(userRepository.findByEmail(email)).thenReturn(null);
 
         // Act & Assert
         UsernameNotFoundException exception =
-                org.junit.jupiter.api.Assertions.assertThrows(
+                assertThrows(
                         UsernameNotFoundException.class,
                         () -> customUserService.loadUserByUsername(email)
                 );

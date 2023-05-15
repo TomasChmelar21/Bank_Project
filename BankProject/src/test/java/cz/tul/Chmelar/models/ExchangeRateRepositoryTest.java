@@ -1,23 +1,46 @@
 package cz.tul.Chmelar.models;
 
+import cz.tul.Chmelar.services.ExchangeRateService;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mockito;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.text.ParseException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 
 class ExchangeRateRepositoryTest {
     @TempDir
     static Path tempDir;
     @Test
-    void getListOfExchangeRates() {
+    public void testGetListOfExchangeRates() {
+        List<ExchangeRate> exchangeRates = ExchangeRateRepository.getListOfExchangeRates();
+
+        // Assert that the exchangeRates list is not null
+        Assert.assertNotNull(exchangeRates);
+
+        // Assert that the exchangeRates list is not empty
+        Assert.assertFalse(exchangeRates.isEmpty());
+
+        // Assert that all parameters of the exchange rate are not null
+        for (ExchangeRate exchangeRate : exchangeRates) {
+            Assert.assertNotNull(exchangeRate.getState());
+            Assert.assertNotNull(exchangeRate.getCurrency());
+            Assert.assertNotNull(exchangeRate.getAmount());
+            Assert.assertNotNull(exchangeRate.getCode());
+            Assert.assertNotNull(exchangeRate.getExchangeRate());
+        }
+
     }
 
     @Test
     void getExchangeRateArray() {
+
         String exchangeRateFileContent = "09.05.2023 #88\n" +
                 "země|měna|množství|kód|kurz\n" +
                 "Austrálie|dolar|1|AUD|14,410\n" +
@@ -25,12 +48,16 @@ class ExchangeRateRepositoryTest {
                 "Bulharsko|lev|1|BGN|11,948\n" +
                 "Čína|žen-min-pi|1|CNY|3,079";
 
-        // Mock the readExchangeRateFile function
-        ExchangeRateRepository exchangeRateRepository = Mockito.mock(ExchangeRateRepository.class);
-        Mockito.when(exchangeRateRepository.readExchangeRateFile(Mockito.anyString()))
-                .thenReturn(exchangeRateFileContent);
+        Path testFilePath = tempDir.resolve("denni_kurz.txt");
 
-        // Create an instance of the class under test
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFilePath.toFile()))) {
+            writer.write(exchangeRateFileContent);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Set the exchangeRateFileContent directly
+        ExchangeRateRepository exchangeRateRepository = new ExchangeRateRepository();
 
         // Invoke the method and verify the result
         String[][] expectedOutput = {
@@ -39,34 +66,59 @@ class ExchangeRateRepositoryTest {
                 {"Bulharsko", "lev", "1", "BGN", "11,948"},
                 {"Čína", "žen-min-pi", "1", "CNY", "3,079"}
         };
-        String[][] actualOutput = exchangeRateRepository.getExchangeRateArray();
 
+
+        String[][] actualOutput = exchangeRateRepository.getExchangeRateArray(testFilePath.toString());
         assertArrayEquals(expectedOutput, actualOutput);
     }
 
     @Test
-    void testGetExchangeRateTime() {
-        /*// Mock the getExchangeRateArray method
-        ExchangeRateRepository exchangeRateRepository = Mockito.mock(ExchangeRateRepository.class);
-        String[][] exchangeRates = {
-                {"Austrálie", "dolar", "1", "AUD", "14,410"},
-                {"Brazílie", "real", "1", "BRL", "4,258"},
-                {"Bulharsko", "lev", "1", "BGN", "11,948"},
-                {"Čína", "žen-min-pi", "1", "CNY", "3,079"}
-        };
-        Mockito.when(exchangeRateRepository.getExchangeRateArray()).thenReturn(exchangeRates);
+    void getExchangeRateTime() {
+        String exchangeRateFileContent = "09.05.2023 #88\n" +
+                "země|měna|množství|kód|kurz\n" +
+                "Austrálie|dolar|1|AUD|14,410\n" +
+                "Brazílie|real|1|BRL|4,258\n" +
+                "Bulharsko|lev|1|BGN|11,948\n" +
+                "Čína|žen-min-pi|1|CNY|3,079";
 
-        ExchangeRateService exchangeRateService = new ExchangeRateService();
+        Path testFilePath = tempDir.resolve("denni_kurz.txt");
 
-        // Set the mock repository on the exchangeRateService instance
-        exchangeRateService.setExchangeRateRepository(exchangeRateRepository);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFilePath.toFile()))) {
+            writer.write(exchangeRateFileContent);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        // Invoke the method and verify the result
+        String exchangeRateTime = ExchangeRateRepository.getExchangeRateTime(testFilePath.toString());
+        assertEquals("09.05.2023", exchangeRateTime);
+    }
+
+
+    @Test
+    void testGetExchangeRateCurrency() {
+        String exchangeRateFileContent = "09.05.2023 #88\n" +
+                "země|měna|množství|kód|kurz\n" +
+                "Austrálie|dolar|1|AUD|14,410\n" +
+                "Brazílie|real|1|BRL|4,258\n" +
+                "Bulharsko|lev|1|BGN|11,948\n" +
+                "Čína|žen-min-pi|1|CNY|3,079";
+
+        Path testFilePath = tempDir.resolve("denni_kurz.txt");
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFilePath.toFile()))) {
+            writer.write(exchangeRateFileContent);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         String currency = "BRL";
         ExchangeRate expectedRate = new ExchangeRate("Brazílie", "real", "1", "BRL", "4,258");
-        ExchangeRate actualRate = exchangeRateService.getExchangeRateByCurrency(currency);
-
-        assertEquals(expectedRate, actualRate);*/
+        ExchangeRate actualRate = ExchangeRateRepository.getExchangeRateByCurrency(testFilePath.toString(), currency);
+        assertEquals(expectedRate.getState(), actualRate.getState());
+        assertEquals(expectedRate.getCurrency(), actualRate.getCurrency());
+        assertEquals(expectedRate.getExchangeRate(), actualRate.getExchangeRate());
+        assertEquals(expectedRate.getCode(), actualRate.getCode());
+        assertEquals(expectedRate.getAmount(), actualRate.getAmount());
     }
 
 
@@ -100,7 +152,7 @@ class ExchangeRateRepositoryTest {
     }
 
     @Test
-    void getHtmlOfRates() {
+    void getHtmlOfRates() throws IOException {
         String expectedString = """
                 10.05.2023 #89
                 země|měna|množství|kód|kurz
@@ -140,13 +192,13 @@ class ExchangeRateRepositoryTest {
         String html = ExchangeRateRepository.getHtmlOfRates(url);
 
         assertEquals(expectedString, html);
-    }
 
-    @Test
-    void getExchangeRateByCurrency() {
-    }
+        String invalidUrl = "invalid-url";
 
-    @Test
-    void getExchangeRatePrint() {
+        // Use assertThrows to verify that an IOException is thrown
+        assertThrows(IOException.class, () -> {
+            ExchangeRateRepository.getHtmlOfRates(invalidUrl);
+        });
+
     }
 }

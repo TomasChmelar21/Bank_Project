@@ -23,7 +23,7 @@ public class ExchangeRateService {
      * refresh denni_kurz file with new rate every monday to friday at 14:45
      */
     @Scheduled(cron = "0 45 14 * * MON-FRI")
-    public static void refreshFileExchangeRate() {
+    public static void refreshFileExchangeRate() throws IOException {
         if (!isHoliday(LocalDate.now())) {
             String url = "https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt";
             String htmlContent = getHtmlOfRates(url);
@@ -76,12 +76,13 @@ public class ExchangeRateService {
      * @param amount - amount we want to transfer
      * @return transform amount from currencyFrom to currencyTo
      */
-    public static double transferExchangeRateCount(String currencyFrom, double amount) {
+    public static double transferExchangeRateCount(String filePath, String currencyFrom, double amount) {
         double output = amount;
         if (currencyFrom.equalsIgnoreCase("CZK")) {
             return output;
         }
-        ExchangeRate exchangeFrom = getExchangeRateByCurrency(currencyFrom);
+        ExchangeRate exchangeFrom = getExchangeRateByCurrency(filePath, currencyFrom);
+        if(exchangeFrom == null){ throw new RuntimeException(); }
         double fromAmount = Double.parseDouble(exchangeFrom.getAmount().replaceAll(",","."));
         double fromRate = Double.parseDouble(exchangeFrom.getExchangeRate().replaceAll(",","."));
         output = (amount / fromAmount) * fromRate;
