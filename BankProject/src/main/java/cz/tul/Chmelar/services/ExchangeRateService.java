@@ -1,6 +1,6 @@
-package cz.tul.Chmelar.Services;
+package cz.tul.Chmelar.services;
 
-import cz.tul.Chmelar.Models.ExchangeRate;
+import cz.tul.Chmelar.models.ExchangeRate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -12,8 +12,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-import static cz.tul.Chmelar.Models.ExchangeRateRepository.getExchangeRateByCurrency;
-import static cz.tul.Chmelar.Models.ExchangeRateRepository.getHtmlOfRates;
+import static cz.tul.Chmelar.models.ExchangeRateRepository.getExchangeRateByCurrency;
+import static cz.tul.Chmelar.models.ExchangeRateRepository.getHtmlOfRates;
 
 @Service
 @EnableScheduling
@@ -43,7 +43,7 @@ public class ExchangeRateService {
      * @param date - today´s date
      * @return true if today is Czechia holidays
      */
-    private static boolean isHoliday(LocalDate date) {
+    public static boolean isHoliday(LocalDate date) {
         String[] holidays = {
                 "01-01", // Nový rok
                 "01-05", // Svátek práce

@@ -1,9 +1,6 @@
-package cz.tul.Chmelar.Models;
+package cz.tul.Chmelar.models;
 
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -63,7 +60,6 @@ public class UserRepository {
                             (String) userJson.get("firstName"),
                             (String) userJson.get("lastName"),
                             (String) userJson.get("token"),
-                            (String) userJson.get("proved"),
                             (String) userJson.get("account"),
                             accounts,
                             histories

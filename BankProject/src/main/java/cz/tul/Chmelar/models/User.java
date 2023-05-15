@@ -1,4 +1,4 @@
-package cz.tul.Chmelar.Models;
+package cz.tul.Chmelar.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +17,6 @@ public class User {
     private String firstName;
     private String lastName;
     private String token;
-    private String proved;
     private String account;
 
     private Account[] accounts;

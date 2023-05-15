@@ -1,4 +1,4 @@
-package cz.tul.Chmelar.Models;
+package cz.tul.Chmelar.models;
 
 import lombok.Getter;
 import lombok.Setter;

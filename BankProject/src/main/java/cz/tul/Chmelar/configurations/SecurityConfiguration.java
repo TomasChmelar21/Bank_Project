@@ -1,6 +1,6 @@
-package cz.tul.Chmelar.Configurations;
+package cz.tul.Chmelar.configurations;
 
-import cz.tul.Chmelar.Services.CustomUserService;
+import cz.tul.Chmelar.services.CustomUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;

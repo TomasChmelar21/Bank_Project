@@ -1,13 +1,12 @@
-package cz.tul.Chmelar.Controllers;
+package cz.tul.Chmelar.controllers;
 
-import cz.tul.Chmelar.Models.User;
-import cz.tul.Chmelar.Models.UserRepository;
+import cz.tul.Chmelar.models.User;
+import cz.tul.Chmelar.models.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -16,19 +15,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
 
-import static cz.tul.Chmelar.Services.AppService.validateTwoFactorCode;
-import static cz.tul.Chmelar.Services.AppService.writeTokenToJson;
-import static cz.tul.Chmelar.Services.CustomUserService.generateTwoFactorCode;
+import static cz.tul.Chmelar.services.AppService.writeTokenToJson;
+import static cz.tul.Chmelar.services.CustomUserService.generateTwoFactorCode;
 
 /**
  * Controller which returning pages based on url
@@ -184,48 +175,8 @@ public class AppController {
         return "login_index";
     }
 
-    /*@GetMapping("/verify_token")
-    public String verify_token(User user, RedirectAttributes redirectAttributes) throws MessagingException {
-        try {
-            writeTokenToJson(user.getEmail(), generateTwoFactorCode());
-            MimeMessage message = emailSender.createMimeMessage();
-            MimeMessageHelper message_Builder = new MimeMessageHelper(message);
-            message_Builder.setFrom("tom.chmelar2002@gmail.com", "Moje Banka");
-            message_Builder.setTo(user.getEmail());
-            message_Builder.setSubject("Banka - ověřovací kód");
-            message_Builder.setText("Váš ověřovací kód je: " + user.getToken(), true);
-            emailSender.send(message);
-            redirectAttributes.addAttribute("email", user.getEmail());
-            return "redirect:/verify_token";
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }*/
-
-    /*@GetMapping("/verify_token")
-    public String verify_token(Model model, Authentication authentication, RedirectAttributes redirectAttributes) throws MessagingException {
-        String email = authentication.getName();
-        User user = UserRepository.findByEmail(email);
-        model.addAttribute("user", user);
-        try {
-            writeTokenToJson(user.getEmail(), generateTwoFactorCode());
-            MimeMessage message = emailSender.createMimeMessage();
-            MimeMessageHelper message_Builder = new MimeMessageHelper(message);
-            message_Builder.setFrom("tom.chmelar2002@gmail.com", "Moje Banka");
-            message_Builder.setTo(user.getEmail());
-            message_Builder.setSubject("Banka - ověřovací kód");
-            message_Builder.setText("Váš ověřovací kód je: " + user.getToken(), true);
-            emailSender.send(message);
-            redirectAttributes.addAttribute("email", user.getEmail());
-            return "redirect:/verify_token";
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }*/
-
     @GetMapping("/verify_token")
-    public String verify_token(Model model) {
+    public String verify_token() {
         return "verify_token";
     }
 

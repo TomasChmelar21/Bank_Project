@@ -1,4 +1,4 @@
-package cz.tul.Chmelar.Models;
+package cz.tul.Chmelar.models;
 
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -8,7 +8,6 @@ import org.apache.hc.core5.http.ParseException;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.springframework.stereotype.Repository;
 
-import java.awt.image.ImagingOpException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -46,7 +45,7 @@ public class ExchangeRateRepository {
      * @return String[][] of exchange rates
      */
     public static String[][] getExchangeRateArray() {
-        String[] exchangeRates = readExchangeRateFile().split("\n");
+        String[] exchangeRates = readExchangeRateFile("src/main/resources/denni_kurz.txt").split("\n");
         String[][] output = new String[exchangeRates.length - 3][5];
         for (int i = 0; i < exchangeRates.length - 3; i++) {
             String line = exchangeRates[i + 3];
@@ -60,8 +59,8 @@ public class ExchangeRateRepository {
      *
      * @return date from exchange rate file
      */
-    public static String getExchangeRateTime() {
-        String[] exchangeRates = readExchangeRateFile().split("\n");
+    public static String getExchangeRateTime(String filePath) {
+        String[] exchangeRates = readExchangeRateFile(filePath).split("\n");
         String output = exchangeRates[0];
         output = output.substring(0, output.indexOf(' '));
         return output;
@@ -72,10 +71,10 @@ public class ExchangeRateRepository {
      *
      * @return String of exchange rate text file
      */
-    public static String readExchangeRateFile() {
+    public static String readExchangeRateFile(String filePath) {
         StringBuilder contentBuilder = new StringBuilder();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/denni_kurz.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 contentBuilder.append(line).append("\n");
@@ -121,18 +120,6 @@ public class ExchangeRateRepository {
             }
         }
         return null;
-    }
-
-    /**
-     * write exchange rate toString of declare currency
-     *
-     * @param currency - shortcut of currency
-     * @return String of currency code, currency amount and currency rate
-     */
-    public static String getExchangeRatePrint(String currency) {
-        ExchangeRate exchangeRate = getExchangeRateByCurrency(currency);
-        String output = String.format("%s %s %s", exchangeRate.getCode(), exchangeRate.getAmount(), exchangeRate.getExchangeRate());
-        return output;
     }
 
 }

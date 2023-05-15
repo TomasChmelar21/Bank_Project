@@ -1,4 +1,4 @@
-package cz.tul.Chmelar.Services;
+package cz.tul.Chmelar.services;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import static cz.tul.Chmelar.Services.ExchangeRateService.transferExchangeRateCount;
+import static cz.tul.Chmelar.services.ExchangeRateService.transferExchangeRateCount;
 
 /**
  * Service of all user functions
@@ -30,8 +30,8 @@ public class AppService {
      * @return true if everything is success
      * @throws IOException
      */
-    public static Boolean depositToAccount(String email, String currency, double amount) throws IOException {
-        String json_content = getContentOfJSON();
+    public static Boolean depositToAccount(String email, String currency, double amount, String filePath) throws IOException {
+        String json_content = getContentOfJSON(filePath);
         JSONObject json = new JSONObject(json_content);
         JSONArray users = json.getJSONArray("users");
 
@@ -47,7 +47,7 @@ public class AppService {
                         double new_Amount = current_Amount + amount;
                         account.put("amount", new_Amount);
                         if(updateTransactionHistory(user, currency, "Přidáno", amount)) {
-                            return writeToFile(json);
+                            return writeToFile(json, filePath);
                         }
                     }
                 }
@@ -66,11 +66,11 @@ public class AppService {
      * @return true if everything is success
      * @throws IOException
      */
-    public static Boolean paymentFromAccount(String email, String currency, double amount) throws IOException {
+    public static Boolean paymentFromAccount(String email, String currency, double amount, String filePath) throws IOException {
         if (amount <= 0) {
             return false;
         }
-        String json_content = getContentOfJSON();
+        String json_content = getContentOfJSON(filePath);
         JSONObject json = new JSONObject(json_content);
         JSONArray users = json.getJSONArray("users");
 
@@ -88,14 +88,14 @@ public class AppService {
                             new_Amount = Math.round(new_Amount * 100.0) / 100.0;
                             account.put("amount", new_Amount);
                             if(updateTransactionHistory(user, currency, "Odesláno", amount)) {
-                                return writeToFile(json);
+                                return writeToFile(json, filePath);
                             }
                         } else {
-                            return paymentFromCZAccount(user, accounts, currency, amount, json);
+                            return paymentFromCZAccount(user, accounts, currency, amount, json, filePath);
                         }
                     }
                 }
-                return paymentFromCZAccount(user, accounts, currency, amount, json);
+                return paymentFromCZAccount(user, accounts, currency, amount, json, filePath);
             }
         }
 
@@ -113,7 +113,7 @@ public class AppService {
      * @return true if everything is success
      * @throws IOException
      */
-    public static Boolean paymentFromCZAccount(JSONObject user, JSONArray accounts, String currency, double amount, JSONObject json) throws IOException {
+    public static Boolean paymentFromCZAccount(JSONObject user, JSONArray accounts, String currency, double amount, JSONObject json, String filePath) throws IOException {
         for (int k = 0; k < accounts.length(); k++) {
             JSONObject account = accounts.getJSONObject(k);
             double current_Amount = account.getDouble("amount");
@@ -124,7 +124,7 @@ public class AppService {
                 new_Amount = Math.round(new_Amount * 100.0) / 100.0;
                 account.put("amount", new_Amount);
                 if(updateTransactionHistory(user, "CZK", "Odesláno", transferredtoCurrency)) {
-                    return writeToFile(json);
+                    return writeToFile(json, filePath);
                 }
 
             }
@@ -140,8 +140,8 @@ public class AppService {
      * @return true if everything is success
      * @throws IOException
      */
-    public static Boolean createNewAccount(String email, String currency) throws IOException {
-        String contents = getContentOfJSON();
+    public static Boolean createNewAccount(String email, String currency, String filePath) throws IOException {
+        String contents = getContentOfJSON(filePath);
         JSONObject json = new JSONObject(contents);
         JSONArray users = json.getJSONArray("users");
 
@@ -153,7 +153,7 @@ public class AppService {
                 new_Account.put("currency", currency);
                 new_Account.put("amount", 0);
                 accounts.put(new_Account);
-                return writeToFile(json);
+                return writeToFile(json, "src/main/resources/userdb.json");
             }
         }
         return false;
@@ -167,8 +167,8 @@ public class AppService {
      * @return true if everything is success
      * @throws IOException
      */
-    public static Boolean deleteOldAccount(String email, String currency) throws IOException {
-        String contents = getContentOfJSON();
+    public static Boolean deleteOldAccount(String email, String currency, String filePath) throws IOException {
+        String contents = getContentOfJSON(filePath);
         JSONObject json = new JSONObject(contents);
         JSONArray users = json.getJSONArray("users");
 
@@ -180,7 +180,7 @@ public class AppService {
                     JSONObject account = accounts.getJSONObject(j);
                     if (account.getString("currency").equals(currency)) {
                         accounts.remove(j);
-                        return writeToFile(json);
+                        return writeToFile(json, "src/main/resources/userdb.json");
                     }
                 }
             }
@@ -197,7 +197,7 @@ public class AppService {
      * @throws IOException
      */
     public static Boolean writeTokenToJson(String email, String token) throws IOException {
-        String contents = getContentOfJSON();
+        String contents = getContentOfJSON("src/main/resources/userdb.json");
         JSONObject json = new JSONObject(contents);
         JSONArray users = json.getJSONArray("users");
 
@@ -205,7 +205,7 @@ public class AppService {
             JSONObject user = users.getJSONObject(i);
             if (user.getString("email").equals(email)) {
                 user.put("token", token);
-                return writeToFile(json);
+                return writeToFile(json, "src/main/resources/userdb.json");
             }
         }
         return false;
@@ -213,7 +213,7 @@ public class AppService {
 
     public static Boolean validateTwoFactorCode(String email, String token){
         try {
-            String contents = getContentOfJSON();
+            String contents = getContentOfJSON("src/main/resources/userdb.json");
             JSONObject json = new JSONObject(contents);
             JSONArray users = json.getJSONArray("users");
             for (int i = 0; i < users.length(); i++) {
@@ -266,9 +266,9 @@ public class AppService {
      * @return true if everything is success
      * @throws IOException
      */
-    private static Boolean writeToFile(JSONObject json) throws IOException {
+    private static Boolean writeToFile(JSONObject json, String filePath) throws IOException {
         try {
-            FileWriter file = new FileWriter("src/main/resources/userdb.json");
+            FileWriter file = new FileWriter(filePath);
             file.write(json.toString());
             file.flush();
             file.close();
@@ -284,8 +284,8 @@ public class AppService {
      * @return String of json file
      * @throws IOException
      */
-    private static String getContentOfJSON() throws IOException {
-        return new String(Files.readAllBytes(Paths.get("src/main/resources/userdb.json")));
+    private static String getContentOfJSON(String filePath) throws IOException {
+        return new String(Files.readAllBytes(Paths.get(filePath)));
     }
 
     /**
@@ -296,8 +296,8 @@ public class AppService {
      * @return true if user has account of currency
      * @throws IOException
      */
-    public static Boolean userHasAccountOfCurrency(String email, String currency) throws IOException {
-        String contents = getContentOfJSON();
+    public static Boolean userHasAccountOfCurrency(String email, String currency, String filePath) throws IOException {
+        String contents = getContentOfJSON(filePath);
         JSONObject json = new JSONObject(contents);
         JSONArray users = json.getJSONArray("users");
         for (int i = 0; i < users.length(); i++) {

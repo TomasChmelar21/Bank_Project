@@ -1,23 +1,20 @@
-package cz.tul.Chmelar.Controllers;
+package cz.tul.Chmelar.controllers;
 
-import cz.tul.Chmelar.Models.ExchangeRate;
-import cz.tul.Chmelar.Models.ExchangeRateRepository;
-import cz.tul.Chmelar.Models.User;
-import cz.tul.Chmelar.Models.UserRepository;
-import cz.tul.Chmelar.Services.AppService;
-import cz.tul.Chmelar.Services.ExchangeRateService;
+import cz.tul.Chmelar.models.ExchangeRate;
+import cz.tul.Chmelar.models.ExchangeRateRepository;
+import cz.tul.Chmelar.models.User;
+import cz.tul.Chmelar.models.UserRepository;
+import cz.tul.Chmelar.services.AppService;
+import cz.tul.Chmelar.services.ExchangeRateService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.List;
-
-import static cz.tul.Chmelar.Models.ExchangeRateRepository.getExchangeRateTime;
 
 /**
  * Controller which returning and proccess pages with user actions (deposit, payment, create/delete account)
@@ -57,9 +54,9 @@ public class UserController {
         Boolean wasSuccess = true;
         String message = "";
 
-        if (!ExchangeRateService.isDateSameOrEarlierThanTomorrow(ExchangeRateRepository.getExchangeRateTime())) {
+        if (!ExchangeRateService.isDateSameOrEarlierThanTomorrow(ExchangeRateRepository.getExchangeRateTime("src/main/resources/denni_kurz.txt"))) {
             wasSuccess = false;
-            message = "Pozor kurz není aktuální! Kurz je z " + ExchangeRateRepository.getExchangeRateTime();
+            message = "Pozor kurz není aktuální! Kurz je z " + ExchangeRateRepository.getExchangeRateTime("src/main/resources/denni_kurz.txt");
         }
 
         List<ExchangeRate> exchangeRateList = ExchangeRateRepository.getListOfExchangeRates();
@@ -118,7 +115,7 @@ public class UserController {
         String message = "";
 
         try {
-            if (AppService.paymentFromAccount(email, currency, amount)) {
+            if (AppService.paymentFromAccount(email, currency, amount, "src/main/resources/userdb.json")) {
                 wasSuccess = true;
                 message = "Transakce v měně " + currency + " proběhla úspěšně";
             } else {
@@ -158,8 +155,8 @@ public class UserController {
 
 
         try {
-            if (AppService.userHasAccountOfCurrency(email, currency)) {
-                if (AppService.depositToAccount(email, currency, amount)) {
+            if (AppService.userHasAccountOfCurrency(email, currency, "src/main/resources/userdb.json")) {
+                if (AppService.depositToAccount(email, currency, amount, "src/main/resources/userdb.json")) {
                     wasSuccess = true;
                     message = "Transakce na účet " + currency + " proběhla úspěšně";
                 } else {
@@ -202,11 +199,11 @@ public class UserController {
         String message = "";
 
         try {
-            if (AppService.userHasAccountOfCurrency(email, currency)) {
+            if (AppService.userHasAccountOfCurrency(email, currency, "src/main/resources/userdb.json")) {
                 wasSuccess = false;
                 message = "Účet s měnou " + currency + " už existuje";
             } else {
-                if (AppService.createNewAccount(email, currency)) {
+                if (AppService.createNewAccount(email, currency, "src/main/resources/userdb.json")) {
                     wasSuccess = true;
                     message = "Účet s měnou " + currency + " je úspěšně založený";
                 } else {
@@ -246,8 +243,8 @@ public class UserController {
         String message = "";
 
         try {
-            if (AppService.userHasAccountOfCurrency(email, currency)) {
-                if (AppService.deleteOldAccount(email, currency)) {
+            if (AppService.userHasAccountOfCurrency(email, currency, "src/main/resources/userdb.json")) {
+                if (AppService.deleteOldAccount(email, currency, "src/main/resources/userdb.json")) {
                     wasSuccess = true;
                     message = "Účet s měnou " + currency + " byl úspěšně smazán";
                 } else {

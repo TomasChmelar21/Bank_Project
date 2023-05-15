@@ -1,9 +1,7 @@
-package cz.tul.Chmelar.Models;
+package cz.tul.Chmelar.models;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Date;
 
 /**
  * Model for History of each payment and deposit

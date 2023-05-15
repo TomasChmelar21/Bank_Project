@@ -1,4 +1,4 @@
-package cz.tul.Chmelar.Models;
+package cz.tul.Chmelar.models;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
