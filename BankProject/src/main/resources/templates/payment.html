@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment</title>
+    <link th:href = "@{/css/style.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<header>
+    <div class="header_div">
+        <h1 class="bank-name">Moje Banka</h1>
+        <div class="logout">
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn btn-secondary">Odhlásit se</button>
+            </form>
+        </div>
+    </div>
+</header>
+<div class="container text-center">
+    <div>
+        <h1>Platba</h1>
+    </div>
+    <div class="messages" th:if="${show}">
+        <div class="alert alert-danger">
+            <p th:text="${message}"></p>
+        </div>
+    </div>
+    <form th:action="@{/process_payment}" method="post">
+        <div class="card">
+
+            <div class="form_group">
+                <div class="payment_row">
+                <div class="card_element">
+                    <p class="payment_text">Měna:</p>
+                    <p class="payment_text" style="height: 2px;">Částka:</p>
+                </div>
+
+                <div class="card_element">
+
+                    <div class="col-8">
+                        <select id="account_currency" name="currency">
+                            <option value="CZK">CZK</option>
+                            <option value="AUD">AUD</option>
+                            <option value="BRL">BRL</option>
+                            <option value="BGN">BGN</option>
+                            <option value="CNY">CNY</option>
+                            <option value="DKK">DKK</option>
+                            <option value="EUR">EUR</option>
+                            <option value="PHP">PHP</option>
+                            <option value="HKD">HKD</option>
+                            <option value="INR">INR</option>
+                            <option value="IDR">IDR</option>
+                            <option value="ISK">ISK</option>
+                            <option value="ILS">ILS</option>
+                            <option value="JPY">JPY</option>
+                            <option value="ZAR">ZAR</option>
+                            <option value="CAD">CAD</option>
+                            <option value="KRW">KRW</option>
+                            <option value="HUF">HUF</option>
+                            <option value="MYR">MYR</option>
+                            <option value="MXN">MXN</option>
+                            <option value="XDR">XDR</option>
+                            <option value="NOK">NOK</option>
+                            <option value="NZD">NZD</option>
+                            <option value="PLN">PLN</option>
+                            <option value="RON">RON</option>
+                            <option value="SGD">SGD</option>
+                            <option value="SEK">SEK</option>
+                            <option value="CHF">CHF</option>
+                            <option value="THB">THB</option>
+                            <option value="TRY">TRY</option>
+                            <option value="USD">USD</option>
+                            <option value="GBP">GBP</option>
+                        </select>
+                    </div>
+                    <input type="text" class="amount" name="amount"/>
+                </div>
+            </div>
+            </div>
+
+
+
+            <div>
+                <button type="submit" th:formaction="@{/process_payment}" class="btn btn-primary">Potvrdit</button>
+            </div>
+        </div>
+    </form>
+    <div class="goback">
+        <h3> <a th:href="@{/account_details}">Zpět na účet</a></h3>
+    </div>
+    <div>
+
+    </div>
+</div>
+
+<div class="card">
+    <div class="table-container exchange-course">
+        <table>
+            <tr>
+                <td colspan="5"><h2>Kurzy</h2></td>
+            </tr>
+            <tr>
+                <td><h3>Země:</h3></td>
+                <td><h3>Měna:</h3></td>
+                <td><h3>Množství:</h3></td>
+                <td><h3>Kód:</h3></td>
+                <td><h3>Kurz:</h3></td>
+            </tr>
+            <tr th:each="exchangeRate : ${exchangeRateList}">
+                <td><span th:text="${exchangeRate.state}"></span></td>
+                <td><span th:text="${exchangeRate.currency}"></span></td>
+                <td><span th:text="${exchangeRate.amount}"></span></td>
+                <td><span th:text="${exchangeRate.code}"></span></td>
+                <td><span th:text="${exchangeRate.exchangeRate}"></span></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

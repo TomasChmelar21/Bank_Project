@@ -1,4 +1,4 @@
-package cz.tul.Chmelar.BankMain;
+package cz.tul.Chmelar;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
