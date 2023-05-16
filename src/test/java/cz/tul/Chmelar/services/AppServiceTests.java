@@ -20,152 +20,92 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class AppServiceTests {
 
-    String originalContent = """
-                    {
-                      "users": [
-                        {
-                          "firstName": "Tomas",
-                          "lastName": "Chmelar",
-                          "proved": "0",
-                          "password": "$2a$10$t3P9PdFohS00sSb4CqnZHOk9yKw2EgZjLoeivzwvJuHpBflsdljx2",
-                          "accounts": [
-                            {
-                              "amount": 5000,
-                              "currency": "CZK"
-                            },
-                            {
-                              "amount": 1000,
-                              "currency": "EUR"
-                            }
-                          ],
-                          "history": [
-                            {
-                              "amount": 100,
-                              "action": "Deposit",
-                              "account": "CZK",
-                              "timestamp": "2023-05-02 13:26:12.123"
-                            },
-                            {
-                              "amount": 200,
-                              "action": "Payment",
-                              "account": "EUR",
-                              "timestamp": "2023-05-02 13:28:11.321"
-                            }
-                          ],
-                          "email": "tom.chmelar@seznam.cz",
-                          "account": "4287 4522 1564 9911",
-                          "token": "123456"
-                        },
-                        {
-                          "firstName": "Pepa",
-                          "lastName": "Tester",
-                          "proved": "0",
-                          "password": "$2a$10$q.ta9BP8.4Cn7lGBsA82h.f8L8IDowxO.Org9hBKxTiAf8umgtuny",
-                          "accounts": [
-                            {
-                              "amount": 971.26,
-                              "currency": "CZK"
-                            },
-                            {
-                              "amount": 6097.06,
-                              "currency": "EUR"
-                            },
-                            {
-                              "amount": 0,
-                              "currency": "ZAR"
-                            },
-                            {
-                              "amount": 12345.1,
-                              "currency": "IDR"
-                            }
-                          ],
-                          "history": [
-                            {
-                              "amount": 20,
-                              "action": "Odesláno",
-                              "account": "CZK",
-                              "timestamp": "09.05.2023 14:07"
-                            },
-                            {
-                              "amount": 20,
-                              "action": "Odesláno",
-                              "account": "CZK",
-                              "timestamp": "09.05.2023 14:10"
-                            },
-                            {
-                              "amount": 20,
-                              "action": "Odesláno",
-                              "account": "CZK",
-                              "timestamp": "09.05.2023 14:11"
-                            },
-                            {
-                              "amount": 20,
-                              "action": "Odesláno",
-                              "account": "CZK",
-                              "timestamp": "09.05.2023 14:14"
-                            },
-                            {
-                              "amount": 20,
-                              "action": "Odesláno",
-                              "account": "CZK",
-                              "timestamp": "09.05.2023 14:15"
-                            },
-                            {
-                              "amount": 20,
-                              "action": "Odesláno",
-                              "account": "CZK",
-                              "timestamp": "09.05.2023 14:16"
-                            },
-                            {
-                              "amount": 20,
-                              "action": "Přidáno",
-                              "account": "CZK",
-                              "timestamp": "09.05.2023 14:16"
-                            },
-                            {
-                              "amount": 20,
-                              "action": "Odesláno",
-                              "account": "CZK",
-                              "timestamp": "09.05.2023 14:24"
-                            },
-                            {
-                              "amount": 20,
-                              "action": "Odesláno",
-                              "account": "CZK",
-                              "timestamp": "09.05.2023 14:31"
-                            },
-                            {
-                              "amount": 20,
-                              "action": "Odesláno",
-                              "account": "CZK",
-                              "timestamp": "09.05.2023 14:31"
-                            },
-                            {
-                              "amount": 20,
-                              "action": "Odesláno",
-                              "account": "CZK",
-                              "timestamp": "09.05.2023 14:32"
-                            },
-                            {
-                              "amount": 20,
-                              "action": "Odesláno",
-                              "account": "CZK",
-                              "timestamp": "09.05.2023 14:37"
-                            },
-                            {
-                              "amount": 21.22,
-                              "action": "Odesláno",
-                              "account": "CZK",
-                              "timestamp": "13.05.2023 14:14"
-                            }
-                          ],
-                          "email": "misty211@seznam.cz",
-                          "account": "4581 1235 1237 6625",
-                          "token": "972535"
-                        }
-                      ]
-                    }
-                """;
+    " "users": [\n" +
+" {\n" +
+" "firstName": "Tomas",\n" +
+" "lastName": "Chmelar",\n" +
+" "proved": "0",\n" +
+" "password": "$2a$10$t3P9PdFohS00sSb4CqnZHOk9yKw2EgZjLoeivzwvJuHpBflsdljx2",\n" +
+" "accounts": [\n" +
+" {\n" +
+" "amount": 5000,\n" +
+" "currency": "CZK"\n" +
+" },\n" +
+" {\n" +
+" "amount": 1000,\n" +
+" "currency": "EUR"\n" +
+" }\n" +
+" ],\n" +
+" "history": [\n" +
+" {\n" +
+" "amount": 100,\n" +
+" "action": "Deposit",\n" +
+" "account": "CZK",\n" +
+" "timestamp": "2023-05-02 13:26:12.123"\n" +
+" },\n" +
+" {\n" +
+" "amount": 200,\n" +
+" "action": "Payment",\n" +
+" "account": "EUR",\n" +
+" "timestamp": "2023-05-02 13:28:11.321"\n" +
+" }\n" +
+" ],\n" +
+" "email": "tom.chmelar@seznam.cz",\n" +
+" "account": "4287 4522 1564 9911",\n" +
+" "token": "123456"\n" +
+" },\n" +
+" {\n" +
+" "firstName": "Pepa",\n" +
+" "lastName": "Tester",\n" +
+" "proved": "0",\n" +
+" "password": "$2a$10$q.ta9BP8.4Cn7lGBsA82h.f8L8IDowxO.Org9hBKxTiAf8umgtuny",\n" +
+" "accounts": [\n" +
+" {\n" +
+" "amount": 971.26,\n" +
+" "currency": "CZK"\n" +
+" },\n" +
+" {\n" +
+" "amount": 6097.06,\n" +
+" "currency": "EUR"\n" +
+" },\n" +
+" {\n" +
+" "amount": 0,\n" +
+" "currency": "ZAR"\n" +
+" },\n" +
+" {\n" +
+" "amount": 12345.1,\n" +
+" "currency": "IDR"\n" +
+" }\n" +
+" ],\n" +
+" "history": [\n" +
+" {\n" +
+" "amount": 20,\n" +
+"
+
+"action": "Odesláno",\n" +
+" "account": "CZK",\n" +
+" "timestamp": "09.05.2023 14:07"\n" +
+" },\n" +
+" {\n" +
+" "amount": 20,\n" +
+" "action": "Odesláno",\n" +
+" "account": "CZK",\n" +
+" "timestamp": "09.05.2023 14:10"\n" +
+" },\n" +
+" {\n" +
+" "amount": 21.22,\n" +
+" "action": "Odesláno",\n" +
+" "account": "CZK",\n" +
+" "timestamp": "13.05.2023 14:14"\n" +
+" }\n" +
+" ],\n" +
+" "email": "misty211@seznam.cz",\n" +
+" "account": "4581 1235 1237 6625",\n" +
+" "token": "972535"\n" +
+" }\n" +
+" ]\n" +
+"}";
+
     @TempDir
     Path tempDir;
 
