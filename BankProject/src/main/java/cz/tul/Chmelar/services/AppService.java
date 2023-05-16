@@ -28,7 +28,7 @@ public class AppService {
      * @param currency - account where user want to deposit money
      * @param amount   - amount of depositing money
      * @return true if everything is success
-     * @throws IOException
+     * @throws IOException - error while processing the payment
      */
     public static Boolean depositToAccount(String email, String currency, double amount, String filePath) throws IOException {
         String json_content = getContentOfJSON(filePath);
@@ -45,6 +45,9 @@ public class AppService {
                     if (account.getString("currency").equals(currency)) {
                         double current_Amount = account.getDouble("amount");
                         double new_Amount = current_Amount + amount;
+                        if (new_Amount > Double.MAX_VALUE) {
+                            throw new IllegalArgumentException("The new amount exceeds the maximum value.");
+                        }
                         account.put("amount", new_Amount);
                         if(updateTransactionHistory(user, currency, "Přidáno", amount)) {
                             return writeToFile(json, filePath);
@@ -64,7 +67,7 @@ public class AppService {
      * @param currency - currency in which user want to pay
      * @param amount   - amount of paying money
      * @return true if everything is success
-     * @throws IOException
+     * @throws IOException - error while processing the payment
      */
     public static Boolean paymentFromAccount(String email, String currency, double amount, String filePath) throws IOException {
         if (amount <= 0) {
@@ -111,7 +114,7 @@ public class AppService {
      * @param amount   - amount of money user want to pay
      * @param json     - file of users
      * @return true if everything is success
-     * @throws IOException
+     * @throws IOException - error while processing the payment
      */
     public static Boolean paymentFromCZAccount(JSONObject user, JSONArray accounts, String currency, double amount, JSONObject json, String filePath) throws IOException {
         for (int k = 0; k < accounts.length(); k++) {
@@ -138,7 +141,7 @@ public class AppService {
      * @param email    - users email
      * @param currency - currency user want to create account
      * @return true if everything is success
-     * @throws IOException
+     * @throws IOException - error while processing the payment
      */
     public static Boolean createNewAccount(String email, String currency, String filePath) throws IOException {
         String contents = getContentOfJSON(filePath);
@@ -165,7 +168,7 @@ public class AppService {
      * @param email    - users email
      * @param currency - currency of account user want to delete
      * @return true if everything is success
-     * @throws IOException
+     * @throws IOException - error while processing the payment
      */
     public static Boolean deleteOldAccount(String email, String currency, String filePath) throws IOException {
         String contents = getContentOfJSON(filePath);
@@ -194,7 +197,7 @@ public class AppService {
      * @param email - users email
      * @param token - users new token
      * @return true if everything is success
-     * @throws IOException
+     * @throws IOException - error while processing the payment
      */
     public static Boolean writeTokenToJson(String email, String token) throws IOException {
         String contents = getContentOfJSON("src/main/resources/userdb.json");
@@ -264,7 +267,7 @@ public class AppService {
      *
      * @param json - json file which we want to override
      * @return true if everything is success
-     * @throws IOException
+     * @throws IOException - error while processing the payment
      */
     private static Boolean writeToFile(JSONObject json, String filePath) throws IOException {
         try {
@@ -282,7 +285,7 @@ public class AppService {
      * get content of json file
      *
      * @return String of json file
-     * @throws IOException
+     * @throws IOException - error while processing the payment
      */
     private static String getContentOfJSON(String filePath) throws IOException {
         return new String(Files.readAllBytes(Paths.get(filePath)));
@@ -294,7 +297,7 @@ public class AppService {
      * @param email    - users email
      * @param currency - currency of account which method searching
      * @return true if user has account of currency
-     * @throws IOException
+     * @throws IOException - error while processing the payment
      */
     public static Boolean userHasAccountOfCurrency(String email, String currency, String filePath) throws IOException {
         String contents = getContentOfJSON(filePath);

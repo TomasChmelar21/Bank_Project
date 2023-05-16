@@ -118,7 +118,7 @@ public class UserController {
      * @param model          - holder for model attributes
      * @param authentication - authentication of user
      * @return account details page with processed payment
-     * @throws IOException
+     * @throws IOException - error while processing the payment
      */
     @PostMapping("/process_payment")
     public String process_payment(@RequestParam("currency") String currency, @RequestParam(value = "amount") double amount, Model model, Authentication authentication) {
@@ -157,7 +157,7 @@ public class UserController {
      * @param model          - holder for model attributes
      * @param authentication - authentication of user
      * @return account details page with processed deposit
-     * @throws IOException
+     * @throws IOException - error while processing the payment
      */
     @PostMapping("/process_deposit")
     public String process_deposit(@RequestParam("currency") String currency, @RequestParam(value = "amount") double amount, Model model, Authentication authentication) {
@@ -202,7 +202,7 @@ public class UserController {
      * @param model          - holder for model attributes
      * @param authentication - authentication of user
      * @return account details page with processed new account
-     * @throws IOException
+     * @throws IOException - error while processing the payment
      */
     @PostMapping("/process_new_account")
     public String process_new_account(@RequestParam("currency") String currency, Model model, Authentication authentication) throws IOException {
@@ -246,7 +246,7 @@ public class UserController {
      * @param model          - holder for model attributes
      * @param authentication - authentication of user
      * @return account details page with processed delete account
-     * @throws IOException
+     * @throws IOException - error while processing the payment
      */
     @PostMapping("/delete_old_account")
     public String delete_old_account(@RequestParam("currency") String currency, Model model, Authentication authentication) throws IOException {

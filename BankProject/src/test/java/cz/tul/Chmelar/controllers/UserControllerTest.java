@@ -98,7 +98,7 @@ class UserControllerTest {
 
             @Override
             public String getName() {
-                return "testUser@seznam.cz";
+                return "tom.chmelar@seznam.cz";
             }
         };
 

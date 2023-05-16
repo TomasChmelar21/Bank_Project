@@ -106,7 +106,7 @@ public class AppController {
      * @param email - users email
      * @param password - users password
      * @return if login information are wrong it return login page if its correct it return verify page
-     * @throws MessagingException
+     * @throws MessagingException -  error while sending the verification email
      */
     @PostMapping("/login_redirect")
     public String login_redirect(Model model, HttpServletResponse response, @RequestParam String email, @RequestParam String password) throws MessagingException{
