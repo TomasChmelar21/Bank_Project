@@ -10,7 +10,7 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "feature/editfiles" ]
 
 jobs:
   build:
@@ -26,5 +26,6 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
-      
+      run: mvn -B package --file Bank_Project/pom.xml
+    - name: Run Spring tests
+      run: mvn clean test --file Bank_Project/pom.xml
