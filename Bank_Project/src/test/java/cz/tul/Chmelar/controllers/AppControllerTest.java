@@ -10,7 +10,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.ui.Model;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -19,14 +24,98 @@ class AppControllerTest {
     @Mock
     private UserRepository userRepository;
 
-    @Mock
-    private Model model;
 
-    @Mock
+    private AppController appController = new AppController();
+
+
+    private Model model;
     private Authentication authentication;
 
-    private AppController appController;
+    private Authentication authenticationWrong;
+    @BeforeEach
+    void setUp(){
+        model = new Model() {
+            private Map<String, Object> attributes = new HashMap<>();
 
+            @Override
+            public Model addAttribute(String attributeName, Object attributeValue) {
+                attributes.put(attributeName, attributeValue);
+                return this;
+            }
+
+            @Override
+            public Model addAttribute(Object attributeValue) {
+                return null;
+            }
+
+            @Override
+            public Model addAllAttributes(Collection<?> attributeValues) {
+                return null;
+            }
+
+            @Override
+            public Model addAllAttributes(Map<String, ?> attributes) {
+                return null;
+            }
+
+            @Override
+            public Model mergeAttributes(Map<String, ?> attributes) {
+                return null;
+            }
+
+            @Override
+            public boolean containsAttribute(String attributeName) {
+                return attributes.containsKey(attributeName);
+            }
+
+            @Override
+            public Object getAttribute(String attributeName) {
+                return attributes.get(attributeName);
+            }
+
+            @Override
+            public Map<String, Object> asMap() {
+                return attributes;
+            }
+        };
+
+        authentication = new Authentication() {
+            @Override
+            public Collection<? extends GrantedAuthority> getAuthorities() {
+                return null;
+            }
+
+            @Override
+            public Object getCredentials() {
+                return null;
+            }
+
+            @Override
+            public Object getDetails() {
+                return null;
+            }
+
+            @Override
+            public Object getPrincipal() {
+                return null;
+            }
+
+            @Override
+            public boolean isAuthenticated() {
+                return false;
+            }
+
+            @Override
+            public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
+
+            }
+
+            @Override
+            public String getName() {
+                return "tom.chmelar@seznam.cz";
+            }
+        };
+    }
 
 
     @Test
@@ -53,25 +142,23 @@ class AppControllerTest {
 
     @Test
     public void testUserAccount() {
-        /*String email = "test@example.com";
-        Account[] accounts = new Account[1];
-        History[] history = new History[1];
-        User user = new User(email, "$2a$10$q.ta9BP8.4Cn7lGBsA82h.f8L8IDowxO.Org9hBKxTiAf8umgtuny", "Jmeno", "Tester", "123456", "4454564 564 6544654", accounts, history);
-
-        Mockito.when(authentication.getName()).thenReturn(email);
-        Mockito.when(userRepository.findByEmail(email)).thenReturn(user);
-
-        String result = appController.useraccount(model, authentication);
-
-        assertEquals("account_details", result);*/
+        String result = appController.useraccount(model,authentication);
+        assertEquals("account_details", result);
     }
 
     @Test
     void returnlogin() {
+
+        String result = appController.returnlogin();
+
+        assertEquals("login", result);
     }
 
     @Test
     void login_success() {
+        String result = appController.returnlogin();
+
+        assertEquals("login", result);
     }
 
     @Test

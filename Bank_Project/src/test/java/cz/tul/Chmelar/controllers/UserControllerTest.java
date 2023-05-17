@@ -149,8 +149,9 @@ class UserControllerTest {
         Assert.assertEquals("error_page", resultWrong);
     }
 
+
     @Test
-    public void testPayment() throws Exception {
+    public void testPaymentFromCZ() throws Exception {
         String result = userController.payment(model, authentication);
         Assert.assertEquals("payment", result);
         String resultWrong = userController.payment(model, authenticationWrong);

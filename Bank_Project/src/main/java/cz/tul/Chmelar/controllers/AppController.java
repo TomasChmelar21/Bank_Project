@@ -62,6 +62,9 @@ public class AppController {
     public String useraccount(Model model, Authentication authentication) {
         String email = authentication.getName();
         User user = UserRepository.findByEmail(email);
+        if(user == null){
+            return "error_page";
+        }
         model.addAttribute("user", user);
         return "account_details";
     }
