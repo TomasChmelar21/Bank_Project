@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Uživatel</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<header>
+    <div class="header_div">
+        <h1 class="bank-name">Moje Banka</h1>
+        <div class="logout">
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn btn-secondary">Odhlásit se</button>
+            </form>
+        </div>
+    </div>
+</header>
+
+<div class="mainContent">
+    <div class="messages" th:if="${show}">
+        <div th:if="${success}" class="alert alert-success">
+            <p th:text="${message}"></p>
+        </div>
+        <div th:if="not ${success}" class="alert alert-danger">
+            <p th:text="${message}"></p>
+        </div>
+    </div>
+    <div class="user_info">
+        <table>
+            <tr>
+                <td colspan="2"><h2 th:text="${user.firstName} + ' ' + ${user.lastName}">Celé jméno</h2></td>
+            </tr>
+            <tr>
+                <td><p>Číslo účtu:</p></td>
+                <td><p th:text="${user.account}">number</p></td>
+            </tr>
+            <tr>
+                <td><p>E-mail:</p></td>
+                <td><p th:text="${user.email}">email</p></td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div class="table-container accounts">
+        <table>
+            <tr>
+                <td colspan="2"><h2>Účty:</h2></td>
+            </tr>
+            <tr>
+                <td><h3>Měna:</h3></td>
+                <td><h3>Částka:</h3></td>
+            </tr>
+            <tr th:each="account, isEven : ${user.accounts}" th:class="${isEven}? 'even' : 'odd'">
+                <td><span th:text="${account.currency}"></span>:</td>
+                <td><span th:text="${account.amount}"></span></td>
+            </tr>
+        </table>
+    </div>
+    <div class="table-container">
+        <table>
+            <tr>
+                <td colspan="4"><h2>Historie</h2></td>
+            </tr>
+            <tr>
+                <td><h3>Datum:</h3></td>
+                <td><h3>Účet:</h3></td>
+                <td><h3>Akce:</h3></td>
+                <td><h3>Částka:</h3></td>
+            </tr>
+            <tr th:each="history, isEven : ${user.history}" th:class="${isEven}? 'even' : 'odd'">
+                <td><span th:text="${history.timestamp}"></span></td>
+                <td><span th:text="${history.account}"></span></td>
+                <td><span th:text="${history.action}"></span></td>
+                <td><span th:text="${history.amount}"></span></td>
+            </tr>
+        </table>
+    </div>
+
+    <div>
+        <h2>Funkce:</h2>
+        <div class="buttons_container">
+            <a th:href="@{/deposit}">Přidat peníze</a>
+            <a th:href="@{/payment}">Odeslat peníze</a>
+            <a th:href="@{/open_account}">Přidat účet</a>
+            <a th:href="@{/delete_account}">Smazat účet</a>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
