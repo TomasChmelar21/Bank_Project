@@ -22,6 +22,10 @@ import java.util.List;
 @Controller
 public class UserController {
 
+    private String filePath = "data/denni_kurz.txt";
+
+    private String filePathjson = "data/userdb.json";
+
     /**
      * return page where user can deposit money
      *
@@ -60,9 +64,9 @@ public class UserController {
         Boolean wasSuccess = true;
         String message = "";
 
-        if (!ExchangeRateService.isDateSameOrEarlierThanTomorrow(ExchangeRateRepository.getExchangeRateTime("src/main/resources/denni_kurz.txt"))) {
+        if (!ExchangeRateService.isDateSameOrEarlierThanTomorrow(ExchangeRateRepository.getExchangeRateTime(filePath))) {
             wasSuccess = false;
-            message = "Pozor kurz není aktuální! Kurz je z " + ExchangeRateRepository.getExchangeRateTime("src/main/resources/denni_kurz.txt");
+            message = "Pozor kurz není aktuální! Kurz je z " + ExchangeRateRepository.getExchangeRateTime(filePath);
         }
 
         List<ExchangeRate> exchangeRateList = ExchangeRateRepository.getListOfExchangeRates();
@@ -127,7 +131,7 @@ public class UserController {
         String message = "";
 
         try {
-            if (AppService.paymentFromAccount(email, currency, amount, "src/main/resources/userdb.json")) {
+            if (AppService.paymentFromAccount(email, currency, amount, filePathjson)) {
                 wasSuccess = true;
                 message = "Transakce v měně " + currency + " proběhla úspěšně";
             } else {
@@ -167,8 +171,8 @@ public class UserController {
 
 
         try {
-            if (AppService.userHasAccountOfCurrency(email, currency, "src/main/resources/userdb.json")) {
-                if (AppService.depositToAccount(email, currency, amount, "src/main/resources/userdb.json")) {
+            if (AppService.userHasAccountOfCurrency(email, currency, filePathjson)) {
+                if (AppService.depositToAccount(email, currency, amount, filePathjson)) {
                     wasSuccess = true;
                     message = "Transakce na účet " + currency + " proběhla úspěšně";
                 } else {
@@ -211,11 +215,11 @@ public class UserController {
         String message = "";
 
         try {
-            if (AppService.userHasAccountOfCurrency(email, currency, "src/main/resources/userdb.json")) {
+            if (AppService.userHasAccountOfCurrency(email, currency, filePathjson)) {
                 wasSuccess = false;
                 message = "Účet s měnou " + currency + " už existuje";
             } else {
-                if (AppService.createNewAccount(email, currency, "src/main/resources/userdb.json")) {
+                if (AppService.createNewAccount(email, currency, filePathjson)) {
                     wasSuccess = true;
                     message = "Účet s měnou " + currency + " je úspěšně založený";
                 } else {
@@ -255,8 +259,8 @@ public class UserController {
         String message = "";
 
         try {
-            if (AppService.userHasAccountOfCurrency(email, currency, "src/main/resources/userdb.json")) {
-                if (AppService.deleteOldAccount(email, currency, "src/main/resources/userdb.json")) {
+            if (AppService.userHasAccountOfCurrency(email, currency, filePathjson)) {
+                if (AppService.deleteOldAccount(email, currency, filePathjson)) {
                     wasSuccess = true;
                     message = "Účet s měnou " + currency + " byl úspěšně smazán";
                 } else {

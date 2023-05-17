@@ -21,6 +21,10 @@ import static cz.tul.Chmelar.services.ExchangeRateService.transferExchangeRateCo
 @Service
 public class AppService {
 
+    private String filePath = "data/denni_kurz.txt";
+
+    private static String filePathjson = "data/userdb.json";
+
     /**
      * deposit money to users account
      *
@@ -119,7 +123,7 @@ public class AppService {
         for (int k = 0; k < accounts.length(); k++) {
             JSONObject account = accounts.getJSONObject(k);
             double current_Amount = account.getDouble("amount");
-            double transferredtoCurrency = transferExchangeRateCount("src/main/resources/denni_kurz.txt", currency, amount);
+            double transferredtoCurrency = transferExchangeRateCount(filePath, currency, amount);
             transferredtoCurrency = Math.round(transferredtoCurrency * 100.0) / 100.0;
             if (transferredtoCurrency < current_Amount) {
                 double new_Amount = current_Amount - transferredtoCurrency;
@@ -155,7 +159,7 @@ public class AppService {
                 new_Account.put("currency", currency);
                 new_Account.put("amount", 0);
                 accounts.put(new_Account);
-                return writeToFile(json, "src/main/resources/userdb.json");
+                return writeToFile(json, filePathjson);
             }
         }
         return false;
@@ -182,7 +186,7 @@ public class AppService {
                     JSONObject account = accounts.getJSONObject(j);
                     if (account.getString("currency").equals(currency)) {
                         accounts.remove(j);
-                        return writeToFile(json, "src/main/resources/userdb.json");
+                        return writeToFile(json, filePathjson);
                     }
                 }
             }
@@ -199,7 +203,7 @@ public class AppService {
      * @throws IOException - error while processing the payment
      */
     public static Boolean writeTokenToJson(String email, String token) throws IOException {
-        String contents = getContentOfJSON("src/main/resources/userdb.json");
+        String contents = getContentOfJSON(filePathjson);
         JSONObject json = new JSONObject(contents);
         JSONArray users = json.getJSONArray("users");
 
@@ -207,7 +211,7 @@ public class AppService {
             JSONObject user = users.getJSONObject(i);
             if (user.getString("email").equals(email)) {
                 user.put("token", token);
-                return writeToFile(json, "src/main/resources/userdb.json");
+                return writeToFile(json, filePathjson);
             }
         }
         return false;
@@ -215,7 +219,7 @@ public class AppService {
 
     public static Boolean validateTwoFactorCode(String email, String token){
         try {
-            String contents = getContentOfJSON("src/main/resources/userdb.json");
+            String contents = getContentOfJSON(filePathjson);
             JSONObject json = new JSONObject(contents);
             JSONArray users = json.getJSONArray("users");
             for (int i = 0; i < users.length(); i++) {

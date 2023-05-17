@@ -13,6 +13,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserRepository {
 
+    private static String filePathjson = "data/userdb.json";
+
     /**
      * return user based on email
      *
@@ -21,7 +23,7 @@ public class UserRepository {
      */
     public static User findByEmail(String email) {
         try {
-            FileReader reader = new FileReader("src/main/resources/userdb.json");
+            FileReader reader = new FileReader(filePathjson);
             JSONParser parser = new JSONParser();
             JSONObject logObject = (JSONObject) parser.parse(reader);
 

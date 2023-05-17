@@ -16,6 +16,8 @@ import java.util.List;
 @Repository
 public class ExchangeRateRepository {
 
+    private static String filePath = "data/denni_kurz.txt";
+
     /**
      * get List of Exchange Rates from ExchangeRateArray() method
      *
@@ -23,7 +25,7 @@ public class ExchangeRateRepository {
      */
     public static List<ExchangeRate> getListOfExchangeRates() {
         List<ExchangeRate> exchangeRateList = new ArrayList<>();
-        String[][] exchangeRateArray = getExchangeRateArray("src/main/resources/denni_kurz.txt");
+        String[][] exchangeRateArray = getExchangeRateArray(filePath);
         for (String[] exchangeRate : exchangeRateArray) {
             ExchangeRate exchangeRateObj = new ExchangeRate(
                     exchangeRate[0],
