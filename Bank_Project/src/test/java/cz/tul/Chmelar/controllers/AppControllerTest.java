@@ -156,17 +156,20 @@ class AppControllerTest {
 
     @Test
     void login_success() {
-        String result = appController.returnlogin();
+        String result = appController.login_success();
 
-        assertEquals("login", result);
+        assertEquals("login_success", result);
     }
 
     @Test
     void refreshURL() {
+        String result = appController.refreshURL(model, authentication);
+        assertEquals("redirect:/account_details", result);
     }
 
     @Test
     void login_redirect() {
+
     }
 
     @Test
