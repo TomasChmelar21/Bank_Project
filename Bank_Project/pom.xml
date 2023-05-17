@@ -86,6 +86,11 @@
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.8.10</version>
+		</dependency>
 
 	</dependencies>
 
@@ -111,6 +116,35 @@
                 			<target>1.8</target>
             			</configuration>
         		</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.10</version>
+				<configuration>
+					<excludes>
+						<exclude>cz/tul/Chmelar/models/Account.java</exclude>
+						<exclude>cz/tul/Chmelar/models/CustomUser.java</exclude>
+						<exclude>cz/tul/Chmelar/models/ExchangeRate.java</exclude>
+						<exclude>cz/tul/Chmelar/models/History.java</exclude>
+						<exclude>cz/tul/Chmelar/models/User.java</exclude>
+						<exclude>cz/tul/Chmelar/BankWebAppApplication.java</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 

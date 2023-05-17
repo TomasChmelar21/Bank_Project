@@ -1,33 +1,33 @@
 17.05.2023 #94
-zemì|mìna|mnoství|kód|kurz
-Austrálie|dolar|1|AUD|14,529
-Brazílie|real|1|BRL|4,403
+zemÄ›|mÄ›na|mnoÅ¾stvÃ­|kÃ³d|kurz
+AustrÃ¡lie|dolar|1|AUD|14,529
+BrazÃ­lie|real|1|BRL|4,403
 Bulharsko|lev|1|BGN|12,083
-Èína|en-min-pi|1|CNY|3,119
-Dánsko|koruna|1|DKK|3,174
+ÄŒÃ­na|Å¾en-min-pi|1|CNY|3,119
+DÃ¡nsko|koruna|1|DKK|3,174
 EMU|euro|1|EUR|23,635
-Filipíny|peso|100|PHP|38,878
+FilipÃ­ny|peso|100|PHP|38,878
 Hongkong|dolar|1|HKD|2,788
 Indie|rupie|100|INR|26,495
 Indonesie|rupie|1000|IDR|1,468
 Island|koruna|100|ISK|15,539
-Izrael|novı šekel|1|ILS|5,980
+Izrael|novÃ½ Å¡ekel|1|ILS|5,980
 Japonsko|jen|100|JPY|15,936
-Jiní Afrika|rand|1|ZAR|1,133
+JiÅ¾nÃ­ Afrika|rand|1|ZAR|1,133
 Kanada|dolar|1|CAD|16,184
-Korejská republika|won|100|KRW|1,631
-Maïarsko|forint|100|HUF|6,374
+KorejskÃ¡ republika|won|100|KRW|1,631
+MaÄarsko|forint|100|HUF|6,374
 Malajsie|ringgit|1|MYR|4,823
 Mexiko|peso|1|MXN|1,242
-MMF|ZPÈ|1|XDR|29,321
+MMF|ZPÄŒ|1|XDR|29,321
 Norsko|koruna|1|NOK|2,016
-Novı Zéland|dolar|1|NZD|13,656
-Polsko|zlotı|1|PLN|5,246
+NovÃ½ ZÃ©land|dolar|1|NZD|13,656
+Polsko|zlotÃ½|1|PLN|5,246
 Rumunsko|leu|1|RON|4,764
 Singapur|dolar|1|SGD|16,254
-Švédsko|koruna|1|SEK|2,087
-Švıcarsko|frank|1|CHF|24,253
+Å vÃ©dsko|koruna|1|SEK|2,087
+Å vÃ½carsko|frank|1|CHF|24,253
 Thajsko|baht|100|THB|63,665
 Turecko|lira|1|TRY|1,105
 USA|dolar|1|USD|21,826
-Velká Británie|libra|1|GBP|27,203
+VelkÃ¡ BritÃ¡nie|libra|1|GBP|27,203
