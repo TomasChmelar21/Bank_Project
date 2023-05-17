@@ -25,7 +25,7 @@ public class ExchangeRateService {
     @Scheduled(cron = "0 45 14 * * MON-FRI")
     public static void refreshFileExchangeRate() throws IOException {
         if (!isHoliday(LocalDate.now())) {
-            String url = "https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt";
+            String url = "http://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt";
             String htmlContent = getHtmlOfRates(url);
             try {
                 FileWriter writetoFile = new FileWriter("src/main/resources/denni_kurz.txt", false);

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -172,20 +173,15 @@ class AppServiceTests {
         String email = "misty211@seznam.cz";
         String currency = "PHP";
 
-        Path tempFile = tempDir.resolve("test_userdb.json");
-        Files.writeString(tempFile, originalContent);
-        /*File tempFile = File.createTempFile("test", ".json");
-        String filePath = tempFile.getAbsolutePath();
-        FileWriter file = new FileWriter(filePath);
-        file.write(originalContent);
-        file.flush();
-        file.close();
+        Path testFilePath = tempDir.resolve("denni_kurz.txt");
 
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFilePath.toFile()))) {
+            writer.write(originalContent);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        AppService appService = mock(AppService.class);
-        when(appService.getContentOfJSON(anyString())).thenReturn(originalContent);*/
-
-        boolean result = AppService.userHasAccountOfCurrency(email, currency, tempFile.toString());
+        boolean result = AppService.userHasAccountOfCurrency(email, currency, testFilePath.toString());
 
         assertFalse(result, "Expected userHasAccountOfCurrency to return false");
     }
@@ -195,10 +191,15 @@ class AppServiceTests {
         String email = "misty211@seznam.cz";
         String currency = "CZK";
 
-        Path tempFile = tempDir.resolve("test_userdb.json");
-        Files.writeString(tempFile, originalContent);
+        Path testFilePath = tempDir.resolve("denni_kurz.txt");
 
-        boolean result = AppService.userHasAccountOfCurrency(email, currency, tempFile.toString());
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFilePath.toFile()))) {
+            writer.write(originalContent);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        boolean result = AppService.userHasAccountOfCurrency(email, currency, testFilePath.toString());
 
         assertTrue(result, "Expected userHasAccountOfCurrency to return true");
 
@@ -209,10 +210,15 @@ class AppServiceTests {
         String email = "neexistuju@seznam.cz";
         String currency = "CZK";
 
-        Path tempFile = tempDir.resolve("test_userdb.json");
-        Files.writeString(tempFile, originalContent);
+        Path testFilePath = tempDir.resolve("denni_kurz.txt");
 
-        boolean result = AppService.userHasAccountOfCurrency(email, currency, tempFile.toString());
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFilePath.toFile()))) {
+            writer.write(originalContent);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        boolean result = AppService.userHasAccountOfCurrency(email, currency, testFilePath.toString());
 
         assertFalse(result, "Expected userHasAccountOfCurrency to return false");
 
@@ -221,12 +227,17 @@ class AppServiceTests {
     @Test
     void deleteOldAccount_shouldReturnTrueIfAccoutIsDeleted() throws IOException {
 
-        Path tempFile = tempDir.resolve("test_userdb.json");
-        Files.writeString(tempFile, originalContent);
+        Path testFilePath = tempDir.resolve("denni_kurz.txt");
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFilePath.toFile()))) {
+            writer.write(originalContent);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         String email = "misty211@seznam.cz";
         String currency = "ZAR";
-        boolean result = deleteOldAccount(email, currency, tempFile.toString());
+        boolean result = deleteOldAccount(email, currency, testFilePath.toString());
 
         assertTrue(result, "The account deletion should be successful.");
 
@@ -236,12 +247,18 @@ class AppServiceTests {
     @Test
     void deleteOldAccount_shouldReturnFalseIfAccoutWasNotFound() throws IOException {
 
-        Path tempFile = tempDir.resolve("test_userdb.json");
-        Files.writeString(tempFile, originalContent);
+        Path testFilePath = tempDir.resolve("denni_kurz.txt");
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFilePath.toFile()))) {
+            writer.write(originalContent);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
 
         String email = "misty211@seznam.cz";
         String currency = "PHP";
-        boolean result = deleteOldAccount(email, currency, tempFile.toString());
+        boolean result = deleteOldAccount(email, currency, testFilePath.toString());
 
         assertFalse(result, "The account wasnt found.");
 

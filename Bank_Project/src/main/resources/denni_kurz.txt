@@ -1,33 +1,33 @@
-16.05.2023 #93
-zemƒõ|mƒõna|mno≈æstv√≠|k√≥d|kurz
-Austr√°lie|dolar|1|AUD|14,520
-Braz√≠lie|real|1|BRL|4,438
-Bulharsko|lev|1|BGN|12,105
-ƒå√≠na|≈æen-min-pi|1|CNY|3,124
-D√°nsko|koruna|1|DKK|3,179
-EMU|euro|1|EUR|23,675
-Filip√≠ny|peso|100|PHP|38,802
-Hongkong|dolar|1|HKD|2,776
-Indie|rupie|100|INR|26,463
+17.05.2023 #94
+zemÏ|mÏna|mnoûstvÌ|kÛd|kurz
+Austr·lie|dolar|1|AUD|14,529
+BrazÌlie|real|1|BRL|4,403
+Bulharsko|lev|1|BGN|12,083
+»Ìna|ûen-min-pi|1|CNY|3,119
+D·nsko|koruna|1|DKK|3,174
+EMU|euro|1|EUR|23,635
+FilipÌny|peso|100|PHP|38,878
+Hongkong|dolar|1|HKD|2,788
+Indie|rupie|100|INR|26,495
 Indonesie|rupie|1000|IDR|1,468
-Island|koruna|100|ISK|15,689
-Izrael|nov√Ω ≈°ekel|1|ILS|5,941
-Japonsko|jen|100|JPY|16,007
-Ji≈æn√≠ Afrika|rand|1|ZAR|1,140
-Kanada|dolar|1|CAD|16,167
-Korejsk√° republika|won|100|KRW|1,623
-Maƒèarsko|forint|100|HUF|6,411
-Malajsie|ringgit|1|MYR|4,836
-Mexiko|peso|1|MXN|1,247
-MMF|ZPƒå|1|XDR|29,214
-Norsko|koruna|1|NOK|2,040
-Nov√Ω Z√©land|dolar|1|NZD|13,584
-Polsko|zlot√Ω|1|PLN|5,277
-Rumunsko|leu|1|RON|4,784
-Singapur|dolar|1|SGD|16,277
-≈†v√©dsko|koruna|1|SEK|2,099
-≈†v√Ωcarsko|frank|1|CHF|24,332
-Thajsko|baht|100|THB|64,045
-Turecko|lira|1|TRY|1,104
-USA|dolar|1|USD|21,758
-Velk√° Brit√°nie|libra|1|GBP|27,230
+Island|koruna|100|ISK|15,539
+Izrael|nov˝ öekel|1|ILS|5,980
+Japonsko|jen|100|JPY|15,936
+JiûnÌ Afrika|rand|1|ZAR|1,133
+Kanada|dolar|1|CAD|16,184
+Korejsk· republika|won|100|KRW|1,631
+MaÔarsko|forint|100|HUF|6,374
+Malajsie|ringgit|1|MYR|4,823
+Mexiko|peso|1|MXN|1,242
+MMF|ZP»|1|XDR|29,321
+Norsko|koruna|1|NOK|2,016
+Nov˝ ZÈland|dolar|1|NZD|13,656
+Polsko|zlot˝|1|PLN|5,246
+Rumunsko|leu|1|RON|4,764
+Singapur|dolar|1|SGD|16,254
+ävÈdsko|koruna|1|SEK|2,087
+äv˝carsko|frank|1|CHF|24,253
+Thajsko|baht|100|THB|63,665
+Turecko|lira|1|TRY|1,105
+USA|dolar|1|USD|21,826
+Velk· Brit·nie|libra|1|GBP|27,203
