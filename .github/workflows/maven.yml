@@ -29,21 +29,3 @@ jobs:
       run: mvn -B package --file Bank_Project/pom.xml
     - name: Run Spring tests
       run: mvn clean test --file Bank_Project/pom.xml
-    - name: Change file permissions
-      run: |
-          sudo chmod -R 777 /home/ubuntu/actions-runner/_work/Bank_Project/Bank_Project/Bank_Project
-    - name: Stop port 8080
-      id: checkProcess1
-      run: |
-          sudo lsof -i :8080 | awk 'NR==2{print $2}' || echo "No process found"
-    - name: Kill runing process
-      run: |
-          if [ "${{ steps.checkProcess1.outputs.stdout }}" != "" ]; then
-            sudo kill -9 ${{ steps.checkProcess1.outputs.stdout }}
-          fi
-    - name: Build maven jar
-      run: |
-          cd /home/ubuntu/actions-runner/_work/Bank_Project/Bank_Project/Bank_Project
-          sudo mvn clean package
-    - name: Run jar
-      run: sudo nohup java -jar /home/ubuntu/actions-runner/_work/Bank_Project/Bank_Project/Bank_Project/target/Bank_Project-0.0.1-SNAPSHOT.jar > output.log &
