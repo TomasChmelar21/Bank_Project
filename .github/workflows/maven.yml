@@ -29,3 +29,16 @@ jobs:
       run: mvn -B package --file Bank_Project/pom.xml
     - name: Run Spring tests
       run: mvn clean test --file Bank_Project/pom.xml
+    - name: Create Code Coverage Badge
+      uses: schneegans/dynamic-badges-action@v1.6.0
+      with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 723c91b7a31aa9f66b300de3fd1dd650
+          filename: test.json
+          label: Test Coverage
+          message: ${{ env.ANSWER }}%
+          valColorRange: ${{ env.ANSWER }}
+          maxColorRange: 100
+          minColorRange: 70
+          color: orange
+          style: "for-the-badge"
