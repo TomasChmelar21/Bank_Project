@@ -4,7 +4,7 @@
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
-# documentation
+# documentation.
 
 name: Java CI with Maven
 
@@ -32,7 +32,7 @@ jobs:
       run: mvn -B package --file Bank_Project/pom.xml
     - name: Run Spring tests
       run: mvn clean test --file Bank_Project/pom.xml
-    - name: App to Jar
+    - name: App to JarFile
       run: |
           cd /home/ubuntu/actions-runner/_work/Bank_Project/Bank_Project/Bank_Project
           sudo mvn clean package
