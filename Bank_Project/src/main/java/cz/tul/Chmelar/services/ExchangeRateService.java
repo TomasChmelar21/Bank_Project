@@ -20,7 +20,7 @@ import static cz.tul.Chmelar.models.ExchangeRateRepository.getHtmlOfRates;
 public class ExchangeRateService {
 
     
-    private String filePath = "data/denni_kurz.txt";
+    private static String filePath = "data/denni_kurz.txt";
     
     /**
      * refresh denni_kurz file with new rate every monday to friday at 14:45
