@@ -39,4 +39,4 @@ jobs:
     - name: Execute Jar File
       run: |
           cd /home/ubuntu/actions-runner/_work/Bank_Project/Bank_Project/Bank_Project
-          sudo nohup java -jar /home/ubuntu/actions-runner/_work/Bank_Project/Bank_Project/Bank_Project/target/Bank_Project-0.0.1-SNAPSHOT.jar > output.log &
+          sudo nohup java -jar /home/ubuntu/actions-runner/_work/Bank_Project/Bank_Project/Bank_Project/target/BankProject-0.0.1-SNAPSHOT.jar > output.log &
