@@ -19,6 +19,9 @@ import static cz.tul.Chmelar.models.ExchangeRateRepository.getHtmlOfRates;
 @EnableScheduling
 public class ExchangeRateService {
 
+    
+    private String filePath = "data/denni_kurz.txt";
+    
     /**
      * refresh denni_kurz file with new rate every monday to friday at 14:45
      */
@@ -28,7 +31,7 @@ public class ExchangeRateService {
             String url = "http://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt";
             String htmlContent = getHtmlOfRates(url);
             try {
-                FileWriter writetoFile = new FileWriter("src/main/resources/denni_kurz.txt", false);
+                FileWriter writetoFile = new FileWriter(filePath, false);
                 writetoFile.write(htmlContent);
                 writetoFile.close();
             } catch (IOException e) {
