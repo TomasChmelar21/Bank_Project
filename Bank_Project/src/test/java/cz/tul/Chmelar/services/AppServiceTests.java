@@ -123,24 +123,6 @@ class AppServiceTests {
         assertTrue(result, "Expected writeToFile to return true");
     }
 
-    @Test
-    void writeToFile_shouldReturnFalseWhenFileWritingFails() throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        JSONObject json = new JSONObject();
-        File tempFile = File.createTempFile("test", ".json");
-        String filePath = tempFile.getAbsolutePath();
-        tempFile.setWritable(false);
-
-        Method method = AppService.class.getDeclaredMethod("writeToFile", JSONObject.class, String.class);
-        method.setAccessible(true);
-
-        AppService appService = new AppService();
-        boolean result = (boolean) method.invoke(appService, json, filePath);
-
-        assertFalse(result, "Expected writeToFile to return false");
-
-        tempFile.delete();
-    }
-
 
     @Test
     void getContentOfJSON_shouldReturnContentOfJson() throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, JSONException {

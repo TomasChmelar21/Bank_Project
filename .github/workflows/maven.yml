@@ -15,9 +15,12 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
+    - name: Change file Permissions
+      run: |
+          sudo chmod -R 777 /home/ubuntu/actions-runner/_work/Bank_Project/Bank_Project/Bank_Project
     - uses: actions/checkout@v3
     - name: Set up JDK 17
       uses: actions/setup-java@v3
@@ -29,3 +32,11 @@ jobs:
       run: mvn -B package --file Bank_Project/pom.xml
     - name: Run Spring tests
       run: mvn clean test --file Bank_Project/pom.xml
+    - name: App to JarFile
+      run: |
+          cd /home/ubuntu/actions-runner/_work/Bank_Project/Bank_Project/Bank_Project
+          sudo mvn clean package
+    - name: Execute Jar File
+      run: |
+          cd /home/ubuntu/actions-runner/_work/Bank_Project/Bank_Project/Bank_Project
+          sudo nohup java -jar /home/ubuntu/actions-runner/_work/Bank_Project/Bank_Project/Bank_Project/target/BankProject-0.0.1-SNAPSHOT.jar > output.log &
