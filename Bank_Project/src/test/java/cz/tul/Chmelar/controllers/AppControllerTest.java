@@ -31,7 +31,6 @@ class AppControllerTest {
     private Model model;
     private Authentication authentication;
 
-    private Authentication authenticationWrong;
     @BeforeEach
     void setUp(){
         model = new Model() {
@@ -174,6 +173,7 @@ class AppControllerTest {
 
     @Test
     void verify_login() {
+
     }
 
     @Test
