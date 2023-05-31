@@ -152,10 +152,25 @@ class UserControllerTest {
 
     @Test
     public void testPaymentFromCZ() throws Exception {
-        String result = userController.payment(model, authentication);
-        Assert.assertEquals("payment", result);
-        String resultWrong = userController.payment(model, authenticationWrong);
-        Assert.assertEquals("error_page", resultWrong);
+        String result = userController.process_payment("IDR", 1, model, authentication);
+        Boolean success = (Boolean) model.getAttribute("success");
+        String message = (String) model.getAttribute("message");
+
+        Assert.assertEquals("account_details", result);
+        Assert.assertTrue(success);
+        Assert.assertEquals("Transakce v měně IDR proběhla úspěšně", message);
+    }
+
+    @Test
+    public void testPaymentToNegative() throws Exception {
+        String result = userController.process_payment("JPY", 1090, model, authentication);
+        Boolean success = (Boolean) model.getAttribute("success");
+        String message = (String) model.getAttribute("message");
+
+        Assert.assertEquals("account_details", result);
+        Assert.assertTrue(success);
+        Assert.assertEquals("Transakce v měně JPY proběhla úspěšně", message);
+        userController.process_deposit("JPY", 1099, model, authentication);
     }
 
     @Test
@@ -183,6 +198,7 @@ class UserControllerTest {
         Assert.assertEquals("account_details", result);
         Assert.assertTrue(success);
         Assert.assertEquals("Transakce v měně CZK proběhla úspěšně", message);
+        userController.process_deposit("CZK", 10, model, authentication);
         String resultWrong = userController.process_payment("CZK", 10, model, authenticationWrong);
         Boolean successWrong = (Boolean) model.getAttribute("success");
         String messageWrong = (String) model.getAttribute("message");

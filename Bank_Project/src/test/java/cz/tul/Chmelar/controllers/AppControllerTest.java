@@ -2,11 +2,14 @@ package cz.tul.Chmelar.controllers;
 
 import cz.tul.Chmelar.models.UserRepository;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
@@ -31,7 +34,6 @@ class AppControllerTest {
     private Model model;
     private Authentication authentication;
 
-    private Authentication authenticationWrong;
     @BeforeEach
     void setUp(){
         model = new Model() {
@@ -174,6 +176,14 @@ class AppControllerTest {
 
     @Test
     void verify_login() {
+        HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
+
+        Cookie[] cookies = new Cookie[1];
+        cookies[0] = new Cookie("email", "tom.chmelar@seznam.cz");
+
+        Mockito.when(request.getCookies()).thenReturn(cookies);
+        String result = appController.verify_login(model, "123456", request);
+        assertEquals("login_index", result);
     }
 
     @Test

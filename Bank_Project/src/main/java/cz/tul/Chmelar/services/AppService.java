@@ -21,7 +21,7 @@ import static cz.tul.Chmelar.services.ExchangeRateService.transferExchangeRateCo
 @Service
 public class AppService {
 
-    private String filePath = "data/denni_kurz.txt";
+    private static String filePathMoney = "data/denni_kurz.txt";
 
     private static String filePathjson = "data/userdb.json";
 
@@ -44,7 +44,6 @@ public class AppService {
             if (user.getString("email").equals(email)) {
                 JSONArray accounts = user.getJSONArray("accounts");
                 for (int j = 0; j < accounts.length(); j++) {
-
                     JSONObject account = accounts.getJSONObject(j);
                     if (account.getString("currency").equals(currency)) {
                         double current_Amount = account.getDouble("amount");
@@ -89,6 +88,7 @@ public class AppService {
                     JSONObject account = accounts.getJSONObject(j);
                     if (account.getString("currency").equals(currency)) {
                         double current_Amount = account.getDouble("amount");
+                        double balanceWithFee = Math.round((current_Amount + (current_Amount * 0.1)) * 100.0) / 100.0;
                         if (current_Amount > amount) {
                             double new_Amount = current_Amount - amount;
                             new_Amount = Math.round(new_Amount * 100.0) / 100.0;
@@ -96,7 +96,19 @@ public class AppService {
                             if(updateTransactionHistory(user, currency, "Odesláno", amount)) {
                                 return writeToFile(json, filePath);
                             }
-                        } else {
+                        }
+                        else if(balanceWithFee >= amount) {
+                            double newAmount = current_Amount - amount;
+                            double negativeInterest = Math.abs(newAmount) * 0.1;
+                            newAmount -= negativeInterest;
+                            newAmount = Math.round(newAmount * 100.0) / 100.0;
+                            account.put("amount", newAmount);
+                            if (updateTransactionHistory(user, currency, "Odesláno", amount)) {
+                                return writeToFile(json, filePath);
+                            }
+
+                        }
+                        else {
                             return paymentFromCZAccount(user, accounts, currency, amount, json, filePath);
                         }
                     }
@@ -122,17 +134,22 @@ public class AppService {
     public static Boolean paymentFromCZAccount(JSONObject user, JSONArray accounts, String currency, double amount, JSONObject json, String filePath) throws IOException {
         for (int k = 0; k < accounts.length(); k++) {
             JSONObject account = accounts.getJSONObject(k);
-            double current_Amount = account.getDouble("amount");
-            double transferredtoCurrency = transferExchangeRateCount(filePath, currency, amount);
-            transferredtoCurrency = Math.round(transferredtoCurrency * 100.0) / 100.0;
-            if (transferredtoCurrency < current_Amount) {
-                double new_Amount = current_Amount - transferredtoCurrency;
-                new_Amount = Math.round(new_Amount * 100.0) / 100.0;
-                account.put("amount", new_Amount);
-                if(updateTransactionHistory(user, "CZK", "Odesláno", transferredtoCurrency)) {
-                    return writeToFile(json, filePath);
-                }
+            if (account.getString("currency").equals("CZK")) {
+                double current_Amount = account.getDouble("amount");
+                double transferredtoCurrency = transferExchangeRateCount(filePathMoney, currency, amount);
+                double balanceWithFee = Math.round((current_Amount + (current_Amount * 0.1)) * 100.0) / 100.0;
+                transferredtoCurrency = Math.round(transferredtoCurrency * 100.0) / 100.0;
+                if (transferredtoCurrency <= balanceWithFee) {
+                    double new_Amount = current_Amount - transferredtoCurrency;
+                    new_Amount = Math.round(new_Amount * 100.0) / 100.0;
+                    double negativeInterest = Math.abs(new_Amount) * 0.1;
+                    new_Amount -= negativeInterest;
+                    account.put("amount", new_Amount);
+                    if (updateTransactionHistory(user, "CZK", "Odesláno", transferredtoCurrency)) {
+                        return writeToFile(json, filePath);
+                    }
 
+                }
             }
         }
         return false;
