@@ -247,6 +247,17 @@ class AppServiceTests {
 
     }
 
+    @Test
+    void validateTwoFactorCode(){
+        AppService appService = new AppService();
+        Boolean result = appService.validateTwoFactorCode("tom.chmelar@seznam.cz", "123456");
+        assertTrue(result, "Code was correct");
+        result = appService.validateTwoFactorCode("misty211@seznam.cz", "123456");
+        assertFalse(result, "Code wasnt correct");
+
+
+    }
+
 
 
 }

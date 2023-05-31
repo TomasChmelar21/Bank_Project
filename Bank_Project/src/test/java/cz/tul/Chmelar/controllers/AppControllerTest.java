@@ -4,6 +4,7 @@ import cz.tul.Chmelar.models.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,9 +34,13 @@ class AppControllerTest {
 
     private Model model;
     private Authentication authentication;
+    private HttpServletResponse response;
+    private JavaMailSender emailSender;
 
     @BeforeEach
     void setUp(){
+        response = Mockito.mock(HttpServletResponse.class);
+        emailSender = Mockito.mock(JavaMailSender.class);
         model = new Model() {
             private Map<String, Object> attributes = new HashMap<>();
 
@@ -170,8 +175,10 @@ class AppControllerTest {
     }
 
     @Test
-    void login_redirect() {
-
+    void login_redirect() throws MessagingException {
+        HttpServletResponse request = Mockito.mock(HttpServletResponse.class);
+        String result = appController.login_redirect(model, request, "nonexist@seznam.cz", "heslo1");
+        assertEquals("redirect:/login?error=true", result);
     }
 
     @Test
@@ -195,4 +202,5 @@ class AppControllerTest {
 
         assertEquals("verify_token", result);
     }
+
 }
