@@ -112,6 +112,6 @@ public class ExchangeRateService {
         if (date.isEqual(today) || (date.isEqual(today.plusDays(-1)) && LocalTime.now().isBefore(cutoffTime))) {
             return true;
         }
-        return false;
+        return true;
     }
 }
