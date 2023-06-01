@@ -109,7 +109,7 @@ public class ExchangeRateService {
         if (date.getDayOfWeek() == DayOfWeek.MONDAY && LocalTime.now().isBefore(cutoffTime)) {
             return true;
         }
-        if (date.isEqual(today) || (date.isEqual(today.plusDays(1)) && LocalTime.now().isBefore(cutoffTime))) {
+        if (date.isEqual(today) || (date.isEqual(today.plusDays(-1)) && LocalTime.now().isBefore(cutoffTime))) {
             return true;
         }
         return false;
