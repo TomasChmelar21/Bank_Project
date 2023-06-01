@@ -1,4 +1,4 @@
-31.05.2023 #104
+01.06.2023 #104
 země|měna|množství|kód|kurz
 Austrálie|dolar|1|AUD|14,394
 Brazílie|real|1|BRL|4,387
